@@ -27,9 +27,9 @@ class PianoGame extends FlameGame with KeyboardEvents {
   @override
   FutureOr<void> onLoad() async {
     world.add(keyboard);
-    // world.add(volumeSlider);
-    // world.add(tempoSelector);
-    // world.add(notesSelector);
+    world.add(volumeSlider);
+    world.add(tempoSelector);
+    world.add(notesSelector);
 
     
 
