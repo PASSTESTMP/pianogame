@@ -34,7 +34,7 @@ class PianoKey extends RectangleComponent {
       case "C1":
         keyNr = 0;
         white = true;
-        sound = 'assets/sounds/key01.mp3';
+        sound = 'key01.mp3';
         break;
       case "C#1":
         keyNr = 1;

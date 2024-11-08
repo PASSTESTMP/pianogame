@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/src/services/hardware_keyboard.dart';
 import 'package:flutter/src/services/keyboard_key.g.dart';
 import 'package:flutter/src/widgets/focus_manager.dart';
@@ -31,14 +31,18 @@ class PianoGame extends FlameGame with KeyboardEvents {
     // world.add(tempoSelector);
     // world.add(notesSelector);
 
+    // for (int i=1; i<=9; i++){
+    //   await FlameAudio.audioCache.load('assets/sounds/key0{i}.mp3');
+    // }
+    
+
     return super.onLoad();
   }
 
-  final audioPlayer = AudioPlayer();
-
   void playSound(String source) async {
     if(source != ""){
-      await audioPlayer.play(AssetSource(source));
+      await FlameAudio.audioCache.load(source);
+      FlameAudio.play(source);
     }
   }
 
@@ -49,7 +53,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
         if(event is KeyRepeatEvent){
           return KeyEventResult.handled;
         }
-        var sound = "assets/sound/key24.mp3";
+        var sound = "key24.mp3";
         final keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
         switch (event.logicalKey) {
           case LogicalKeyboardKey.keyQ:

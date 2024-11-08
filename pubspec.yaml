@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flame: ^1.21.0
-  audioplayers: ^6.1.0
+  flame_audio: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -62,30 +62,30 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/sounds/key01.mp3
-    - assets/sounds/key02.mp3
-    - assets/sounds/key03.mp3
-    - assets/sounds/key04.mp3
-    - assets/sounds/key05.mp3
-    - assets/sounds/key06.mp3
-    - assets/sounds/key07.mp3
-    - assets/sounds/key08.mp3
-    - assets/sounds/key09.mp3
-    - assets/sounds/key10.mp3
-    - assets/sounds/key11.mp3
-    - assets/sounds/key12.mp3
-    - assets/sounds/key13.mp3
-    - assets/sounds/key14.mp3
-    - assets/sounds/key15.mp3
-    - assets/sounds/key16.mp3
-    - assets/sounds/key17.mp3
-    - assets/sounds/key18.mp3
-    - assets/sounds/key19.mp3
-    - assets/sounds/key20.mp3
-    - assets/sounds/key21.mp3
-    - assets/sounds/key22.mp3
-    - assets/sounds/key23.mp3
-    - assets/sounds/key24.mp3
+    - assets/audio/key01.mp3
+    - assets/audio/key02.mp3
+    - assets/audio/key03.mp3
+    - assets/audio/key04.mp3
+    - assets/audio/key05.mp3
+    - assets/audio/key06.mp3
+    - assets/audio/key07.mp3
+    - assets/audio/key08.mp3
+    - assets/audio/key09.mp3
+    - assets/audio/key10.mp3
+    - assets/audio/key11.mp3
+    - assets/audio/key12.mp3
+    - assets/audio/key13.mp3
+    - assets/audio/key14.mp3
+    - assets/audio/key15.mp3
+    - assets/audio/key16.mp3
+    - assets/audio/key17.mp3
+    - assets/audio/key18.mp3
+    - assets/audio/key19.mp3
+    - assets/audio/key20.mp3
+    - assets/audio/key21.mp3
+    - assets/audio/key22.mp3
+    - assets/audio/key23.mp3
+    - assets/audio/key24.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
