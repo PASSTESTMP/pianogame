@@ -61,7 +61,7 @@ class PianoKey extends RectangleComponent with TapCallbacks {
 
   @override
   void onTapCancel(TapCancelEvent event) {
-    if(isStarted){
+    if(isStarted && active){
       paint.color = white ? whiteKey : blackKey;
     }
     super.onTapCancel(event);
@@ -69,10 +69,14 @@ class PianoKey extends RectangleComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    if(isStarted){
+    if(isStarted && active){
       paint.color = white ? whiteKey : blackKey;
     }
     super.onTapUp(event);
+  }
+
+  void decolor(){
+    paint.color = white ? whiteKey : blackKey;
   }
 
   @override

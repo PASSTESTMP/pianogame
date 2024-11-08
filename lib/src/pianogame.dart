@@ -247,6 +247,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   void activateKeys() {
     for(int i=0; i<keys.length; i++){
       keys.elementAt(i).activate();
+      keys.elementAt(i).decolor();
       keys.elementAt(i).isStarted = false;
     }
   }
@@ -256,5 +257,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
     activeKeys = [];
     world.remove(world.children.query<Gamescore>().first);
     world.add(gameconf);
+    activateKeys();
   }
 }
