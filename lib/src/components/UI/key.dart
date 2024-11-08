@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:pianogame/src/config.dart';
 
-class PianoKey extends RectangleComponent {
+class PianoKey extends RectangleComponent with TapCallbacks {
   int keyNr = 0;
   bool white = true;
   String note = "C2";
-  PianoKey({required this.note}):super();
+  Function activation;
+  PianoKey({required this.note, required this.activation}):super();
   late String sound = "";
 
 
@@ -31,7 +34,16 @@ class PianoKey extends RectangleComponent {
     return "";
   }
 
-    @override
+  @override
+  Future<void> onTapDown(TapDownEvent event) async {
+    await FlameAudio.audioCache.load(sound);
+    FlameAudio.play(sound);
+    super.onTapDown(event);
+    lightKey();
+    activation(note);
+  }
+
+  @override
   FutureOr<void> onLoad() {
     switch (note){
       case "C1":

@@ -7,7 +7,7 @@ class Notes extends RectangleComponent {
   :super(
     paint: Paint()..color = transparent,
     size: Vector2(notesWidth, notesHeight),
-    position: Vector2(-whiteKeyWidth*2, -gameHeight/4-notesHeight/2)
+    position: Vector2(5*whiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - notesHeight/2)
   );
 
 }

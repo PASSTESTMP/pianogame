@@ -7,7 +7,7 @@ class Tempo extends RectangleComponent {
   :super(
     paint: Paint()..color = transparent,
     size: Vector2(tempoWidth, tempoHeight),
-    position: Vector2(-keyboardWidth/2, -gameHeight/4-tempoHeight/2)
+    position: Vector2(0, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - tempoHeight/2)
   );
 
 }

@@ -7,11 +7,16 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/src/services/hardware_keyboard.dart';
 import 'package:flutter/src/services/keyboard_key.g.dart';
 import 'package:flutter/src/widgets/focus_manager.dart';
+import 'package:pianogame/src/components/UI/gameconf.dart';
+import 'package:pianogame/src/components/UI/gamescore.dart';
+import 'package:pianogame/src/components/logic/gamelogic.dart';
 import 'package:pianogame/src/config.dart';
 
 import 'components/components.dart';
 
 class PianoGame extends FlameGame with KeyboardEvents {
+  int gameTempo = defaultTempo;
+  int numberOfNotes = defaultNotes;
   PianoGame()
   :super(camera: CameraComponent.withFixedResolution(
     width: gameWidth,
@@ -19,17 +24,38 @@ class PianoGame extends FlameGame with KeyboardEvents {
     )
   );
 
-  Keyboard keyboard = Keyboard();
-  Volume volumeSlider = Volume();
-  Tempo tempoSelector = Tempo();
-  Notes notesSelector = Notes();
+  List<String> activeKeys = [];
+
+  void activateKey(String key) {
+    if(activeKeys.contains(key)){
+      activeKeys.remove(key);
+      return;
+    }
+    activeKeys.add(key);
+  }
+
+
+  void startGame() {
+    if(activeKeys.length<3) return;
+    world.remove(world.children.query<Gameconf>().first);
+    Gamelogic().start();
+    Gameboard gameboard = Gameboard(numberOfNotes: numberOfNotes);
+    world.add(gameboard);
+  }
 
   @override
   FutureOr<void> onLoad() async {
+
+    Keyboard keyboard = Keyboard(activateKey: activateKey);
+    Gameconf gameconf = Gameconf(startGame: startGame);
+    Gamescore gamescore = Gamescore();
+
     world.add(keyboard);
-    world.add(volumeSlider);
-    world.add(tempoSelector);
-    world.add(notesSelector);
+
+    world.debugMode = true;
+
+    world.add(gameconf);
+    
 
     
 
