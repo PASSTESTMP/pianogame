@@ -31,9 +31,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
     // world.add(tempoSelector);
     // world.add(notesSelector);
 
-    // for (int i=1; i<=9; i++){
-    //   await FlameAudio.audioCache.load('assets/sounds/key0{i}.mp3');
-    // }
     
 
     return super.onLoad();
@@ -53,7 +50,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
         if(event is KeyRepeatEvent){
           return KeyEventResult.handled;
         }
-        var sound = "key24.mp3";
+        var sound = "";
         final keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
         switch (event.logicalKey) {
           case LogicalKeyboardKey.keyQ:
@@ -62,62 +59,70 @@ class PianoGame extends FlameGame with KeyboardEvents {
             break;
           case LogicalKeyboardKey.keyW:
             var x = noteList.indexOf("D1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyE:
             var x = noteList.indexOf("E1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyR:
             var x = noteList.indexOf("F1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyT:
             var x = noteList.indexOf("G1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyY:
             var x = noteList.indexOf("A1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyU:
             var x = noteList.indexOf("B1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyI:
             var x = noteList.indexOf("C2");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyO:
             var x = noteList.indexOf("D2");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.keyP:
             var x = noteList.indexOf("E2");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.digit2:
             var x = noteList.indexOf("C#1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.digit3:
             var x = noteList.indexOf("D#1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.digit5:
             var x = noteList.indexOf("F#1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.digit6:
             var x = noteList.indexOf("G#1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
             break;
           case LogicalKeyboardKey.digit7:
             var x = noteList.indexOf("A#1");
-            keys.elementAt(x).lightKey();
+            sound = keys.elementAt(x).lightKey();
+            break;
+          case LogicalKeyboardKey.digit9:
+            var x = noteList.indexOf("C#2");
+            sound = keys.elementAt(x).lightKey();
+            break;
+          case LogicalKeyboardKey.digit0:
+            var x = noteList.indexOf("D#2");
+            sound = keys.elementAt(x).lightKey();
             break;
         }
-        playSound(sound);
+        if(sound!="") playSound(sound);
       
     return KeyEventResult.handled;
   }

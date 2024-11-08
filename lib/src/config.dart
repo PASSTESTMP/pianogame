@@ -12,6 +12,7 @@ const Color  whiteKey = Color.fromARGB(255, 255, 255, 255);
 const Color  blackKey = Color.fromARGB(255, 0, 0, 0);
 const Color  backColor = Color.fromARGB(255, 54, 54, 54);
 const Color selectedKey = Color.fromARGB(255, 93, 236, 255);
+const Color selectedBlackKey = Color.fromARGB(255, 49, 128, 138);
 const defaultVomule = 100;
 const defaultTempo = 60;
 const tempoValues = [60, 90, 120, 180];

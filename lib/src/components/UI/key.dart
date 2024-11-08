@@ -19,11 +19,14 @@ class PianoKey extends RectangleComponent {
   String lightKey(){
     if(white){
       paint.color = paint.color == selectedKey ? whiteKey : selectedKey;
-    }else{
-      paint.color = paint.color == selectedKey ? blackKey : selectedKey;
-    }
-    if(paint.color == selectedKey){
+      if(paint.color == selectedKey){
       return playSound();
+    }
+    }else{
+      paint.color = paint.color == selectedBlackKey ? blackKey : selectedBlackKey;
+      if(paint.color == selectedBlackKey){
+      return playSound();
+    }
     }
     return "";
   }
@@ -39,98 +42,122 @@ class PianoKey extends RectangleComponent {
       case "C#1":
         keyNr = 1;
         white = false;
+        sound = 'key02.mp3';
         break;
       case "D1":
         keyNr = 1;
         white = true;
+        sound = 'key03.mp3';
         break;
       case "D#1":
         keyNr = 2;
         white = false;
+        sound = 'key04.mp3';
         break;
       case "E1":
         keyNr = 2;
         white = true;
+        sound = 'key05.mp3';
         break;
       case "F1":
         keyNr = 3;
         white = true;
+        sound = 'key06.mp3';
         break;
       case "F#1":
         keyNr = 4;
         white = false;
+        sound = 'key07.mp3';
         break;
       case "G1":
         keyNr = 4;
         white = true;
+        sound = 'key08.mp3';
         break;
       case "G#1":
         keyNr = 5;
         white = false;
+        sound = 'key09.mp3';
         break;
       case "A1":
         keyNr = 5;
         white = true;
+        sound = 'key10.mp3';
         break;
       case "A#1":
         keyNr = 6;
         white = false;
+        sound = 'key11.mp3';
         break;
       case "B1":
         keyNr = 6;
         white = true;
+        sound = 'key12.mp3';
         break;
       case "C2":
         keyNr = 7;
         white = true;
+        sound = 'key13.mp3';
         break;
       case "C#2":
         keyNr = 8;
         white = false;
+        sound = 'key14.mp3';
         break;
       case "D2":
         keyNr = 8;
         white = true;
+        sound = 'key15.mp3';
         break;
       case "D#2":
         keyNr = 9;
         white = false;
+        sound = 'key16.mp3';
         break;
       case "E2":
         keyNr = 9;
         white = true;
+        sound = 'key17.mp3';
         break;
       case "F2":
         keyNr = 10;
         white = true;
+        sound = 'key18.mp3';
         break;
       case "F#2":
         keyNr = 11;
         white = false;
+        sound = 'key19.mp3';
         break;
       case "G2":
         keyNr = 11;
         white = true;
+        sound = 'key20.mp3';
         break;
       case "G#2":
         keyNr = 12;
         white = false;
+        sound = 'key21.mp3';
         break;
       case "A2":
         keyNr = 12;
         white = true;
+        sound = 'key22.mp3';
         break;
       case "A#2":
         keyNr = 13;
         white = false;
+        sound = 'key23.mp3';
         break;
       case "B2":
         keyNr = 13;
         white = true;
+        sound = 'key24.mp3';
         break;
       default:
         keyNr = 0;
         white = true;
+        sound = 'key24.mp3';
     }
     if(!white){
       paint = Paint()..color = blackKey;
