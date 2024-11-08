@@ -11,9 +11,20 @@ class PianoKey extends RectangleComponent with TapCallbacks {
   bool white = true;
   String note = "C2";
   Function activation;
+  bool active = true;
+  bool isStarted = false;
   PianoKey({required this.note, required this.activation}):super();
   late String sound = "";
 
+  void deactive(){
+    active = false;
+    paint.color = notActive;
+  }
+
+  void activate(){
+    active = true;
+    paint.color = white ? whiteKey : blackKey;
+  }
 
   String playSound(){
     return sound;
@@ -36,11 +47,32 @@ class PianoKey extends RectangleComponent with TapCallbacks {
 
   @override
   Future<void> onTapDown(TapDownEvent event) async {
+    if(!active) return;
     await FlameAudio.audioCache.load(sound);
     FlameAudio.play(sound);
-    super.onTapDown(event);
-    lightKey();
+    if(isStarted){
+      paint.color = white ? selectedKey : selectedBlackKey;
+    }else {
+      lightKey();
+    }
     activation(note);
+    super.onTapDown(event);
+  }
+
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    if(isStarted){
+      paint.color = white ? whiteKey : blackKey;
+    }
+    super.onTapCancel(event);
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    if(isStarted){
+      paint.color = white ? whiteKey : blackKey;
+    }
+    super.onTapUp(event);
   }
 
   @override

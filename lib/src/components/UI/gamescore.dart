@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
-import 'package:pianogame/src/components/components.dart';
 import 'package:pianogame/src/config.dart';
 
-class Gamescore extends RectangleComponent {
-  Gamescore()
+class Gamescore extends RectangleComponent with TapCallbacks{
+  int score;
+  Function restart;
+  Gamescore({required this.score, required this.restart})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -15,12 +17,19 @@ class Gamescore extends RectangleComponent {
     paint: Paint()..color = backColor,
   );
 
+  @override
+  void onTapDown(TapDownEvent event) {
+    restart();
+    super.onTapDown(event);
+  }
   
 
   @override
   FutureOr<void> onLoad() {
     // add(volumeSlider);
 
+    TextComponent scoreIndicator = TextComponent(text: score.toString());
+    add(scoreIndicator);
 
     return super.onLoad();
   }

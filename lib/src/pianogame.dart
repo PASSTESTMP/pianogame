@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -17,6 +18,8 @@ import 'components/components.dart';
 class PianoGame extends FlameGame with KeyboardEvents {
   int gameTempo = defaultTempo;
   int numberOfNotes = defaultNotes;
+  int gameScore = 0;
+  late Gameconf gameconf;
   PianoGame()
   :super(camera: CameraComponent.withFixedResolution(
     width: gameWidth,
@@ -24,21 +27,101 @@ class PianoGame extends FlameGame with KeyboardEvents {
     )
   );
 
+  Gamelogic logic = Gamelogic();
+
   List<String> activeKeys = [];
+  
+  bool gameStarted = false;
+  
+  late Iterable<PianoKey> keys;
 
   void activateKey(String key) {
-    if(activeKeys.contains(key)){
+    if(gameStarted){
+      // TODO: tu mam note wcisnietego i musze sprawdzic czy nastepny w activeKeys to ten
+      // do tego wyswietlic stringa na polu
+      // w kolorze czerwonym lub zielonym
+      // dodac score
+      var score =  logic.compareNotes(key, activeKeys);
+      if (score != -1){
+        gameScore = (score/ activeKeys.length *100).toInt();
+        showScore();
+      }
+    }else{
+      if(activeKeys.contains(key)){
       activeKeys.remove(key);
       return;
+      }
+      activeKeys.add(key);
+    } 
+  }
+
+  void sort(){
+    Map <double, String> sorter = {};
+    for(int i=0; i<keys.length; i++){
+      if(activeKeys.contains(keys.elementAt(i).note)){
+        if(keys.elementAt(i).white){
+          sorter[keys.elementAt(i).keyNr + 0.5] = keys.elementAt(i).note;
+        }else{
+          sorter[keys.elementAt(i).keyNr.toDouble()] = keys.elementAt(i).note;
+        }
+      }
     }
-    activeKeys.add(key);
+    var sortedMap = Map.fromEntries(
+      sorter.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)),
+    );
+    activeKeys = sortedMap.values.toList();
+  }
+
+  void randomize(){
+    Random random = Random();
+    List<String> randomList = [];
+
+    for(int i=0; i<numberOfNotes; i++){
+      int randomIndex = random.nextInt(activeKeys.length);
+      randomList.add(activeKeys.elementAt(randomIndex));
+    }
+
+    activeKeys = randomList;
+
+  }
+
+  Future<void> deactiveKeys() async {
+    for(int i=0; i<keys.length; i++){
+      keys.elementAt(i).deactive();
+      keys.elementAt(i).isStarted = true;
+    }
+    await Future.delayed(Duration(seconds: 1));
+    sort();
+    for(int i=0; i<activeKeys.length; i++){
+      var x = noteList.indexOf(activeKeys.elementAt(i));
+      playSound(keys.elementAt(x).lightKey());
+      double sec = 60/gameTempo;
+      await Future.delayed(Duration(seconds: sec.toInt()));
+      keys.elementAt(x).deactive();
+    }
+    await Future.delayed(Duration(seconds: 1));
+    randomize();
+    for(int i=0; i<activeKeys.length; i++){
+      var x = noteList.indexOf(activeKeys.elementAt(i));
+      playSound(keys.elementAt(x).lightKey());
+      keys.elementAt(x).deactive();
+      double sec = 60/gameTempo;
+      await Future.delayed(Duration(seconds: sec.toInt()));
+    }
+    for(int i=0; i<keys.length; i++){
+      if(activeKeys.contains(keys.elementAt(i).note)) {
+        keys.elementAt(i).activate();
+      }
+    }
   }
 
 
   void startGame() {
     if(activeKeys.length<3) return;
+    deactiveKeys();
+    gameStarted = true;
     world.remove(world.children.query<Gameconf>().first);
-    Gamelogic().start();
+    logic.start();
     Gameboard gameboard = Gameboard(numberOfNotes: numberOfNotes);
     world.add(gameboard);
   }
@@ -47,10 +130,11 @@ class PianoGame extends FlameGame with KeyboardEvents {
   FutureOr<void> onLoad() async {
 
     Keyboard keyboard = Keyboard(activateKey: activateKey);
-    Gameconf gameconf = Gameconf(startGame: startGame);
-    Gamescore gamescore = Gamescore();
+    gameconf = Gameconf(startGame: startGame);
+    
 
     world.add(keyboard);
+    keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
 
     world.debugMode = true;
 
@@ -77,7 +161,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
           return KeyEventResult.handled;
         }
         var sound = "";
-        final keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
         switch (event.logicalKey) {
           case LogicalKeyboardKey.keyQ:
             var x = noteList.indexOf("C1");
@@ -151,5 +234,27 @@ class PianoGame extends FlameGame with KeyboardEvents {
         if(sound!="") playSound(sound);
       
     return KeyEventResult.handled;
+  }
+  
+  void showScore() {
+    activateKeys();
+    gameStarted = false;
+    world.remove(world.children.query<Gameboard>().first);
+    Gamescore gamescore = Gamescore(score: gameScore, restart: restartGame);
+    world.add(gamescore);
+  }
+  
+  void activateKeys() {
+    for(int i=0; i<keys.length; i++){
+      keys.elementAt(i).activate();
+      keys.elementAt(i).isStarted = false;
+    }
+  }
+
+  void restartGame() {
+    gameStarted = false;
+    activeKeys = [];
+    world.remove(world.children.query<Gamescore>().first);
+    world.add(gameconf);
   }
 }
