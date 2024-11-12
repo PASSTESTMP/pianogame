@@ -7,7 +7,8 @@ import 'package:pianogame/src/config.dart';
 
 class Gameconf extends RectangleComponent {
   Function startGame;
-  Gameconf({required this.startGame})
+  Function changeVolume;
+  Gameconf({required this.startGame, required this.changeVolume})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -16,16 +17,16 @@ class Gameconf extends RectangleComponent {
     paint: Paint()..color = backColor,
   );
 
-  Volume volumeSlider = Volume();
-  Tempo tempoSelector = Tempo();
-  Notes notesSelector = Notes();
+
 
   
 
   @override
   FutureOr<void> onLoad() {
 
-
+    Volume volumeSlider = Volume(changeVolume: changeVolume);
+    Tempo tempoSelector = Tempo();
+    Notes notesSelector = Notes();
     Buttonstart start = Buttonstart(startGame: startGame);
 
     add(volumeSlider);

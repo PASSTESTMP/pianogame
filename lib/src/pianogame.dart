@@ -19,6 +19,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   int gameTempo = defaultTempo;
   int numberOfNotes = defaultNotes;
   int gameScore = 0;
+  double gameVolume = defaultVomule;
   late Gameconf gameconf;
   PianoGame()
   :super(camera: CameraComponent.withFixedResolution(
@@ -53,6 +54,13 @@ class PianoGame extends FlameGame with KeyboardEvents {
       }
       activeKeys.add(key);
     } 
+  }
+
+  void changeVolume(double newVolume){
+    gameVolume = newVolume;
+    for(int i=0; i<keys.length; i++){
+      keys.elementAt(i).volume = gameVolume;
+    }
   }
 
   void sort(){
@@ -130,7 +138,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   FutureOr<void> onLoad() async {
 
     Keyboard keyboard = Keyboard(activateKey: activateKey);
-    gameconf = Gameconf(startGame: startGame);
+    gameconf = Gameconf(startGame: startGame, changeVolume: changeVolume);
     
 
     world.add(keyboard);
@@ -149,7 +157,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   void playSound(String source) async {
     if(source != ""){
       await FlameAudio.audioCache.load(source);
-      FlameAudio.play(source);
+      FlameAudio.play(source, volume: gameVolume);
     }
   }
 
