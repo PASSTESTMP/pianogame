@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
-import 'package:pianogame/src/components/UI/dropdownmenu/dropelement.dart';
 import 'package:pianogame/src/components/UI/rectanglemask.dart';
 import 'package:pianogame/src/config.dart';
 

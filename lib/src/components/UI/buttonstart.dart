@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pianogame/src/config.dart';
 
