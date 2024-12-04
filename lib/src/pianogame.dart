@@ -6,7 +6,6 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/src/services/hardware_keyboard.dart';
-import 'package:flutter/src/services/keyboard_key.g.dart';
 import 'package:flutter/src/widgets/focus_manager.dart';
 import 'package:pianogame/src/components/UI/gameconf.dart';
 import 'package:pianogame/src/components/UI/gamescore.dart';
