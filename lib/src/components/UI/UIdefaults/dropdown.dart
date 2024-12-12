@@ -12,10 +12,12 @@ import 'package:flutter/material.dart';
 
 class DropElement extends PositionComponent with TapCallbacks {
   String actVal;
+  Function setActualValue;
   DropElement({
     required this.actVal,
     required Vector2 position,
     required Vector2 size,
+    required this.setActualValue,
   }) : super(position: position, size: size);
 
   @override
@@ -40,6 +42,7 @@ class DropElement extends PositionComponent with TapCallbacks {
   @override
   void onTapDown(TapDownEvent event) {
     // TODO: implement onTapDown
+    this.setActualValue(actVal);
     super.onTapDown(event);
   }
 }
@@ -79,6 +82,12 @@ class DropDown extends PositionComponent with TapCallbacks {
     );
   }
 
+  void setActVal(String val){
+    expanded = false;
+    actVal = val;
+    additionalFields.forEach(parent!.remove);
+  }
+
   @override
   void onTapDown(TapDownEvent event) {
     if (!expanded) {
@@ -92,6 +101,7 @@ class DropDown extends PositionComponent with TapCallbacks {
             actVal: values.elementAt(i).toString(),
             position: position + Vector2(0, (i)* (size.y + 10)),
             size: size,
+            setActualValue: setActVal,
           ),
         );
       }
