@@ -7,7 +7,8 @@ import 'package:pianogame/src/config.dart';
 
 class Keyboard extends RectangleComponent {
   Function activateKey;
-  Keyboard({required this.activateKey})
+  Function getVolume;
+  Keyboard({required this.activateKey, required this.getVolume})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -21,7 +22,10 @@ class Keyboard extends RectangleComponent {
   @override
   FutureOr<void> onLoad() {
     for (int i=0; i<noteList.length; i++){
-      PianoKey pianoKey = PianoKey(note: noteList[i], activation: activateKey);
+      PianoKey pianoKey = PianoKey(
+        note: noteList[i],
+        activation: activateKey,
+        getVolume: getVolume);
       add(pianoKey);
     }
 

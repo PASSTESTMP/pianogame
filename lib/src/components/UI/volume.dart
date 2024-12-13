@@ -1,18 +1,18 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pianogame/src/config.dart';
 
 class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   double outVolume;
-  Volume({this.outVolume=defaultVomule}):super(
+  Function changeVolume;
+  Volume({required this.changeVolume, this.outVolume=defaultVomule}):super(
     paint: Paint()..color = transparent,
     size: Vector2(sliderWidth, sliderHeight),
     position: Vector2(10*whiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - sliderHeight*4/2)
   );
 
-  double volume = 0.5; // Początkowa głośność
+  double volume = defaultVomule; // Początkowa głośność
 
   // Wskaźnik pozycji
   late RectangleComponent _sliderRect;
@@ -30,14 +30,14 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   @override
   void onTapDown(TapDownEvent event) {
     _updateVolume(event.localPosition.x);
-    FlameAudio.bgm.audioPlayer.setVolume(volume); 
+    changeVolume(volume);
     super.onTapDown(event);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
     _updateVolume(event.localEndPosition.x);
-    FlameAudio.bgm.audioPlayer.setVolume(volume);
+    changeVolume(volume);
     super.onDragUpdate(event);
   }
 

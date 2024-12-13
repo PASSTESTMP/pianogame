@@ -10,10 +10,12 @@ class Gameconf extends RectangleComponent {
   Function startGame;
   Function changeTempo;
   Function changeNumberOfNotes;
+  Function changeVolume;
   Gameconf({
     required this.startGame,
     required this.changeTempo,
-    required this.changeNumberOfNotes})
+    required this.changeNumberOfNotes,
+    required this.changeVolume})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -25,16 +27,14 @@ class Gameconf extends RectangleComponent {
   int tempo = 120;
   int noteNumber = 6;
 
-  Volume volumeSlider = Volume();
-
-  
-
-  
-
   @override
   FutureOr<void> onLoad() {
 
+
+    Volume volumeSlider = Volume(changeVolume: changeVolume);
+
     DropDown tempoSelector = DropDown(
+      parameterName: "TEMPO",
       actVal: tempo.toString(),
       values: tempoValues,
       position: Vector2(100, 100),
@@ -42,6 +42,7 @@ class Gameconf extends RectangleComponent {
       changeFunction: changeTempo);
 
     DropDown notesSelector = DropDown(
+      parameterName: "NUMBER OF NOTES",
       actVal: noteNumber.toString(),
       values: numberOfNotesValues,
       position: Vector2(300, 100),

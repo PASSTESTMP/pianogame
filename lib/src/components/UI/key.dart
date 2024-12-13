@@ -13,7 +13,13 @@ class PianoKey extends RectangleComponent with TapCallbacks {
   Function activation;
   bool active = true;
   bool isStarted = false;
-  PianoKey({required this.note, required this.activation}):super();
+  double actVolume = 0.1;
+  Function getVolume;
+  PianoKey({
+    required this.note,
+    required this.activation,
+    required this.getVolume,
+    }):super();
   late String sound = "";
 
   void deactive(){
@@ -28,6 +34,10 @@ class PianoKey extends RectangleComponent with TapCallbacks {
 
   String playSound(){
     return sound;
+  }
+
+  void updateVolume(){
+    actVolume = getVolume();
   }
 
   String lightKey(){
@@ -49,7 +59,8 @@ class PianoKey extends RectangleComponent with TapCallbacks {
   Future<void> onTapDown(TapDownEvent event) async {
     if(!active) return;
     await FlameAudio.audioCache.load(sound);
-    FlameAudio.play(sound);
+    updateVolume();
+    FlameAudio.play(sound, volume: actVolume);
     if(isStarted){
       paint.color = white ? selectedKey : selectedBlackKey;
     }else {

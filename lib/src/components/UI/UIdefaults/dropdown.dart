@@ -52,10 +52,12 @@ class DropDown extends PositionComponent with TapCallbacks {
   bool expanded = false;
   late List<DropElement> additionalFields;
   String actVal = "";
+  String parameterName = "";
   List values = List.empty();
   Function changeFunction;
 
   DropDown({
+    required this.parameterName,
     required this.actVal,
     required this.values,
     required Vector2 position,
@@ -72,7 +74,7 @@ class DropDown extends PositionComponent with TapCallbacks {
 
     final textPainter = TextPainter(
       text: TextSpan(
-        text: expanded ? values.elementAt(0).toString() : actVal,
+        text: "$parameterName: $actVal",
         style: TextStyle(color: Colors.white, fontSize: 18),
       ),
       textDirection: TextDirection.ltr,
