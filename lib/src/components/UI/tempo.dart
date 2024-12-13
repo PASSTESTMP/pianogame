@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pianogame/src/config.dart';
 
 class Tempo extends RectangleComponent {
-  Tempo()
+  Function changeTempo;
+  Tempo({required this.changeTempo})
   :super(
     paint: Paint()..color = transparent,
     size: Vector2(tempoWidth, tempoHeight),

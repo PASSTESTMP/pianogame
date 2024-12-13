@@ -8,7 +8,12 @@ import 'package:pianogame/src/config.dart';
 
 class Gameconf extends RectangleComponent {
   Function startGame;
-  Gameconf({required this.startGame})
+  Function changeTempo;
+  Function changeNumberOfNotes;
+  Gameconf({
+    required this.startGame,
+    required this.changeTempo,
+    required this.changeNumberOfNotes})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -18,10 +23,9 @@ class Gameconf extends RectangleComponent {
   );
 
   int tempo = 120;
+  int noteNumber = 6;
 
   Volume volumeSlider = Volume();
-  Tempo tempoSelector = Tempo();
-  Notes notesSelector = Notes();
 
   
 
@@ -30,11 +34,20 @@ class Gameconf extends RectangleComponent {
   @override
   FutureOr<void> onLoad() {
 
-    DropDown dd = DropDown(
+    DropDown tempoSelector = DropDown(
       actVal: tempo.toString(),
       values: tempoValues,
       position: Vector2(100, 100),
-      size: Vector2(100, 100));
+      size: Vector2(100, 100),
+      changeFunction: changeTempo);
+
+    DropDown notesSelector = DropDown(
+      actVal: noteNumber.toString(),
+      values: numberOfNotesValues,
+      position: Vector2(300, 100),
+      size: Vector2(100, 100),
+      changeFunction: changeNumberOfNotes);
+
 
     Buttonstart start = Buttonstart(startGame: startGame);
 
@@ -42,7 +55,6 @@ class Gameconf extends RectangleComponent {
     add(tempoSelector);
     add(notesSelector);
     add(start);
-    add(dd);
 
 
     return super.onLoad();

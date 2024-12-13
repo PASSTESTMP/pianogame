@@ -84,6 +84,14 @@ class PianoGame extends FlameGame with KeyboardEvents {
 
   }
 
+  void changeTempo(String newTempo){
+    gameTempo = int.parse(newTempo);
+  }
+
+  void changeNumberOfNotes(String newNoumberOfNotes){
+    numberOfNotes = int.parse(newNoumberOfNotes);
+  }
+
   Future<void> deactiveKeys() async {
     for(int i=0; i<keys.length; i++){
       keys.elementAt(i).deactive();
@@ -94,8 +102,8 @@ class PianoGame extends FlameGame with KeyboardEvents {
     for(int i=0; i<activeKeys.length; i++){
       var x = noteList.indexOf(activeKeys.elementAt(i));
       playSound(keys.elementAt(x).lightKey());
-      double sec = 60/gameTempo;
-      await Future.delayed(Duration(seconds: sec.toInt()));
+      double msec = 60000/gameTempo;
+      await Future.delayed(Duration(milliseconds: msec.toInt()));
       keys.elementAt(x).deactive();
     }
     await Future.delayed(Duration(seconds: 1));
@@ -104,8 +112,8 @@ class PianoGame extends FlameGame with KeyboardEvents {
       var x = noteList.indexOf(activeKeys.elementAt(i));
       playSound(keys.elementAt(x).lightKey());
       keys.elementAt(x).deactive();
-      double sec = 60/gameTempo;
-      await Future.delayed(Duration(seconds: sec.toInt()));
+      double msec = 60000/gameTempo;
+      await Future.delayed(Duration(milliseconds: msec.toInt()));
     }
     for(int i=0; i<keys.length; i++){
       if(activeKeys.contains(keys.elementAt(i).note)) {
@@ -129,7 +137,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   FutureOr<void> onLoad() async {
 
     Keyboard keyboard = Keyboard(activateKey: activateKey);
-    gameconf = Gameconf(startGame: startGame);
+    gameconf = Gameconf(startGame: startGame, changeTempo: changeTempo, changeNumberOfNotes: changeNumberOfNotes);
     
 
     world.add(keyboard);

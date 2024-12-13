@@ -42,7 +42,7 @@ class DropElement extends PositionComponent with TapCallbacks {
   @override
   void onTapDown(TapDownEvent event) {
     // TODO: implement onTapDown
-    this.setActualValue(actVal);
+    setActualValue(actVal);
     super.onTapDown(event);
   }
 }
@@ -53,19 +53,21 @@ class DropDown extends PositionComponent with TapCallbacks {
   late List<DropElement> additionalFields;
   String actVal = "";
   List values = List.empty();
+  Function changeFunction;
 
   DropDown({
     required this.actVal,
     required this.values,
     required Vector2 position,
     required Vector2 size,
+    required this.changeFunction,
   }) : super(position: position, size: size);
 
 
 
   @override
   void render(Canvas canvas) {
-    final Paint paint = Paint()..color = Colors.blue;
+    final Paint paint = Paint()..color = const Color.fromARGB(255, 47, 54, 59);
     canvas.drawRect(size.toRect(), paint);
 
     final textPainter = TextPainter(
@@ -86,6 +88,7 @@ class DropDown extends PositionComponent with TapCallbacks {
     expanded = false;
     actVal = val;
     additionalFields.forEach(parent!.remove);
+    changeFunction(val);
   }
 
   @override
@@ -94,12 +97,12 @@ class DropDown extends PositionComponent with TapCallbacks {
       expanded = true;
       additionalFields = [];
 
-      for(var i = 1; i < values.length; i++){
+      for(var i = 0; i < values.length; i++){
         
         additionalFields.add(
           DropElement(
             actVal: values.elementAt(i).toString(),
-            position: position + Vector2(0, (i)* (size.y + 10)),
+            position: position + Vector2(0, (i+1)* (size.y + 10)),
             size: size,
             setActualValue: setActVal,
           ),

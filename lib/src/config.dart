@@ -26,6 +26,7 @@ const defaultVomule = 1.0;
 const defaultTempo = 60;
 const tempoValues = [60, 90, 120, 180];
 const defaultNotes = 6;
+const numberOfNotesValues = [6, 8, 10, 12, 16];
 const noteList = ["C1", "D1", "E1", "F1", "G1", "A1", "B1",
                   "C2", "D2", "E2", "F2", "G2", "A2", "B2",
                   "C#1", "D#1", "F#1", "G#1", "A#1",
