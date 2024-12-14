@@ -4,4 +4,4 @@ export 'UI/volume.dart';
 export 'UI/tempo.dart';
 export 'UI/notes.dart';
 export 'UI/buttonstart.dart';
-export 'UI/game.dart';
+export 'UI/gameboard.dart';

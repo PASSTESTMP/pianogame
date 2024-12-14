@@ -37,16 +37,13 @@ class PianoGame extends FlameGame with KeyboardEvents {
   
   late Iterable<PianoKey> keys;
 
-  void activateKey(String key) {
+  Future<void> activateKey(String key) async {
     if(gameStarted){
-      // TODO: tu mam note wcisnietego i musze sprawdzic czy nastepny w activeKeys to ten
-      // do tego wyswietlic stringa na polu
-      // w kolorze czerwonym lub zielonym
-      // dodac score
       var score =  logic.compareNotes(key, activeKeys);
       gameboard.showUsedNote(key, score[1]);
       if (score[0] != -1){
         gameScore = (score[0]/ activeKeys.length *100).toInt();
+        await Future.delayed(Duration(seconds: 1));
         showScore();
       }
     }else{

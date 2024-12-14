@@ -27,15 +27,12 @@ class Gameboard extends RectangleComponent {
     actualNumber++;
   }
 
-  
-  
-
   @override
   FutureOr<void> onLoad() {
-    for(int i=0; i<=numberOfNotes; i++){
+    for(int i=0; i<numberOfNotes; i++){
       RectangleComponent emptySpace = RectangleComponent(
         size: Vector2(keyboardWidth/2/numberOfNotes, spaceHeight),
-        position: Vector2(i*keyboardWidth/2/numberOfNotes*3/2 + keyboardWidth/2/numberOfNotes, keyboardHeight/2)
+        position: Vector2(2*i*keyboardWidth/2/numberOfNotes + keyboardWidth/2/numberOfNotes/2, keyboardHeight/2)
       );
 
       add(emptySpace);
@@ -63,7 +60,7 @@ class NoteIndicator extends TextComponent {
     text = note;
     size = Vector2(keyboardWidth/2/numberOfNotes, keyboardWidth/2/numberOfNotes);
     position = Vector2(
-      number*keyboardWidth/2/numberOfNotes*3/2 + keyboardWidth/2/numberOfNotes,
+      2*number*keyboardWidth/2/numberOfNotes + keyboardWidth/2/numberOfNotes/2,
       keyboardHeight/2 - keyboardWidth/2/numberOfNotes
     );
     final textStyle = TextStyle(
