@@ -11,16 +11,18 @@ class Gamelogic {
     // play every randomized note one by one with tempo and show with every note empty line
   }
 
-  int compareNotes(String obtain, List<String> expected){
+  List <dynamic> compareNotes(String obtain, List<String> expected){
+    var ok = false;
     if(obtain == expected.elementAt(iteration)){
       score++;
+      ok = true;
     }
     iteration++;
     if(iteration>=expected.length){
       iteration = 0;
-      return score;
+      return [score, ok];
     }
-    return -1;
+    return [-1, ok];
   }
 
   void playerActions() {

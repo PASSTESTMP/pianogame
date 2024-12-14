@@ -33,6 +33,8 @@ class PianoGame extends FlameGame with KeyboardEvents {
   
   bool gameStarted = false;
   
+  late Gameboard gameboard;
+  
   late Iterable<PianoKey> keys;
 
   void activateKey(String key) {
@@ -42,8 +44,9 @@ class PianoGame extends FlameGame with KeyboardEvents {
       // w kolorze czerwonym lub zielonym
       // dodac score
       var score =  logic.compareNotes(key, activeKeys);
-      if (score != -1){
-        gameScore = (score/ activeKeys.length *100).toInt();
+      gameboard.showUsedNote(key, score[1]);
+      if (score[0] != -1){
+        gameScore = (score[0]/ activeKeys.length *100).toInt();
         showScore();
       }
     }else{
@@ -138,7 +141,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     gameStarted = true;
     world.remove(world.children.query<Gameconf>().first);
     logic.start();
-    Gameboard gameboard = Gameboard(numberOfNotes: numberOfNotes);
+    gameboard = Gameboard(numberOfNotes: numberOfNotes);
     world.add(gameboard);
   }
 
