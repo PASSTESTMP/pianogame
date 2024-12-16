@@ -2,17 +2,16 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:pianogame/src/components/parameters/dynamic_parameters.dart';
 import 'package:pianogame/src/config.dart';
 
 class Gameboard extends RectangleComponent {
   int numberOfNotes;
   int actualNumber = 0;
-  Gameboard({required this.numberOfNotes})
+  DynamicParameters dynamicParameters;
+  Gameboard({required this.numberOfNotes, required this.dynamicParameters})
   :super(
-    position: Vector2(
-      -keyboardWidth/2,
-      -gameHeight/2 + (gameWidth/2-keyboardWidth/2)),
-    size: Vector2(keyboardWidth, keyboardHeight - 3*(gameWidth/2-keyboardWidth/2)),
+    anchor: Anchor.center,
     paint: Paint()..color = backColor,
   );
 
@@ -27,8 +26,16 @@ class Gameboard extends RectangleComponent {
     actualNumber++;
   }
 
+  void updateFromParameters(){
+    position = Vector2(dynamicParameters.gameboardX, dynamicParameters.gameboardY);
+    size = Vector2(dynamicParameters.gameboardWidth, dynamicParameters.gameboardHeight);
+  }
+
   @override
   FutureOr<void> onLoad() {
+    position = Vector2(dynamicParameters.gameboardX, dynamicParameters.gameboardY);
+    size = Vector2(dynamicParameters.gameboardWidth, dynamicParameters.gameboardHeight);
+
     for(int i=0; i<numberOfNotes; i++){
       RectangleComponent emptySpace = RectangleComponent(
         size: Vector2(keyboardWidth/2/numberOfNotes, spaceHeight),

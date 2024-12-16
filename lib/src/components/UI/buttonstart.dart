@@ -3,21 +3,19 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:pianogame/src/components/parameters/dynamic_parameters.dart';
 import 'package:pianogame/src/config.dart';
 
 class Buttonstart extends RectangleComponent with TapCallbacks {
   Function startGame;
-  Buttonstart({required this.startGame}):super(
+  DynamicParameters dynamicParameters;
+  Buttonstart({required this.startGame, required this.dynamicParameters}):super(
     paint: Paint()..color = transparent,
-    size: Vector2(sliderWidth, sliderHeight),
-    position: Vector2(10*whiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2)
-  );
-
-
+    anchor: Anchor.center,
+    );
 
   TextComponent startButton = TextComponent(text: "START");
   
-
   @override
   void onTapDown(TapDownEvent event) {
     startGame();
@@ -26,21 +24,10 @@ class Buttonstart extends RectangleComponent with TapCallbacks {
 
   @override
   FutureOr<void> onLoad() {
+    size = Vector2(dynamicParameters.startButtonWidth, dynamicParameters.startButtonWidth);
+    position = Vector2(dynamicParameters.startButtonX, dynamicParameters.startButtonY);
     add(startButton);
     return super.onLoad();
   }
-
-
-
-  // Volume({required this.inVolume}):super(
-  //   value: inVolume,
-  //   min: 0.0,
-  //   max: 1.0,
-  //   onChanged: (value) {
-  //     var outVolume = value;
-  //     FlameAudio.bgm.(outVolume);
-
-  //   },
-  // );
 
 }

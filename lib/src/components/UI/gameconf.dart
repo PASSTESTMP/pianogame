@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pianogame/src/components/UI/UIdefaults/dropdown.dart';
 import 'package:pianogame/src/components/components.dart';
+import 'package:pianogame/src/components/parameters/dynamic_parameters.dart';
 import 'package:pianogame/src/config.dart';
 
 class Gameconf extends RectangleComponent {
@@ -11,11 +12,13 @@ class Gameconf extends RectangleComponent {
   Function changeTempo;
   Function changeNumberOfNotes;
   Function changeVolume;
+  DynamicParameters dynamicParameters;
   Gameconf({
     required this.startGame,
     required this.changeTempo,
     required this.changeNumberOfNotes,
-    required this.changeVolume})
+    required this.changeVolume,
+    required this.dynamicParameters})
   :super(
     position: Vector2(
       -keyboardWidth/2,
@@ -50,7 +53,7 @@ class Gameconf extends RectangleComponent {
       changeFunction: changeNumberOfNotes);
 
 
-    Buttonstart start = Buttonstart(startGame: startGame);
+    Buttonstart start = Buttonstart(startGame: startGame, dynamicParameters:dynamicParameters);
 
     add(volumeSlider);
     add(tempoSelector);

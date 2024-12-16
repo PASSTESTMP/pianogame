@@ -10,14 +10,17 @@ class Keyboard extends RectangleComponent {
   Function getVolume;
   Keyboard({required this.activateKey, required this.getVolume})
   :super(
-    position: Vector2(
-      -keyboardWidth/2,
-      gameHeight/2 - keyboardHeight - (gameWidth/2-keyboardWidth/2)),
-    size: Vector2(keyboardWidth, keyboardHeight),
+    anchor: Anchor.center,
+    // position: Vector2(
+    //   -keyboardWidth/2,
+    //   gameHeight/2 - keyboardHeight - (gameWidth/2-keyboardWidth/2)),
+    // size: Vector2(keyboardWidth, keyboardHeight),
     paint: Paint()..color = backColor,
   );
 
+  void updateFromParameters() {
 
+  }
 
   @override
   FutureOr<void> onLoad() {

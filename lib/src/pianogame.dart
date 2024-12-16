@@ -10,37 +10,51 @@ import 'package:flutter/src/widgets/focus_manager.dart';
 import 'package:pianogame/src/components/UI/gameconf.dart';
 import 'package:pianogame/src/components/UI/gamescore.dart';
 import 'package:pianogame/src/components/logic/gamelogic.dart';
+import 'package:pianogame/src/components/parameters/dynamic_layout.dart';
+import 'package:pianogame/src/components/parameters/dynamic_parameters.dart';
 import 'package:pianogame/src/config.dart';
 
 import 'components/components.dart';
 
 class PianoGame extends FlameGame with KeyboardEvents {
+  /*
+  * Parameters
+  */
   int gameTempo = defaultTempo;
-  int numberOfNotes = defaultNotes;
   int gameScore = 0;
   double gameVolume = defaultVomule;
   late Gameconf gameconf;
-  PianoGame()
-  :super(camera: CameraComponent.withFixedResolution(
-    width: gameWidth,
-    height: gameHeight,
-    )
-  );
+
+  PianoGame():super(){
+    /*
+    * Instance with all object on the layout
+    */
+    dynamicLayout = DynamicLayout(activateKey: activateKey, getVolume: getVolume);
+    }
+
+
+  /*
+  * Instance with all parameters dependant of screen size
+  */
+  DynamicParameters dynamicParameters = DynamicParameters();
+
+  late DynamicLayout dynamicLayout;
+
 
   Gamelogic logic = Gamelogic();
 
   List<String> activeKeys = [];
   
   bool gameStarted = false;
+
   
-  late Gameboard gameboard;
   
   late Iterable<PianoKey> keys;
 
   Future<void> activateKey(String key) async {
     if(gameStarted){
       var score =  logic.compareNotes(key, activeKeys);
-      gameboard.showUsedNote(key, score[1]);
+      dynamicLayout.gameboard.showUsedNote(key, score[1]);
       if (score[0] != -1){
         gameScore = (score[0]/ activeKeys.length *100).toInt();
         await Future.delayed(Duration(seconds: 1));
@@ -76,7 +90,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     Random random = Random();
     List<String> randomList = [];
 
-    for(int i=0; i<numberOfNotes; i++){
+    for(int i=0; i<dynamicLayout.numberOfNotes; i++){
       int randomIndex = random.nextInt(activeKeys.length);
       randomList.add(activeKeys.elementAt(randomIndex));
     }
@@ -98,7 +112,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   }
 
   void changeNumberOfNotes(String newNoumberOfNotes){
-    numberOfNotes = int.parse(newNoumberOfNotes);
+    dynamicLayout.numberOfNotes = int.parse(newNoumberOfNotes);
   }
 
   Future<void> deactiveKeys() async {
@@ -138,12 +152,13 @@ class PianoGame extends FlameGame with KeyboardEvents {
     gameStarted = true;
     world.remove(world.children.query<Gameconf>().first);
     logic.start();
-    gameboard = Gameboard(numberOfNotes: numberOfNotes);
-    world.add(gameboard);
+    world.add(dynamicLayout.gameboard);
   }
 
   @override
   FutureOr<void> onLoad() async {
+
+    dynamicLayout.initialization();
 
     Keyboard keyboard = Keyboard(activateKey: activateKey, getVolume: getVolume);
     gameconf = Gameconf(
@@ -151,6 +166,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
       changeTempo: changeTempo,
       changeNumberOfNotes: changeNumberOfNotes,
       changeVolume: changeVolume,
+      dynamicParameters: dynamicParameters,
       );
     
 
@@ -279,5 +295,15 @@ class PianoGame extends FlameGame with KeyboardEvents {
     world.remove(world.children.query<Gamescore>().first);
     world.add(gameconf);
     activateKeys();
+  }
+
+/*
+* Screen sieze change
+*/
+  @override
+  void onGameResize(Vector2 size) {
+    dynamicParameters.updateParameters(size);
+    dynamicLayout.update();
+    super.onGameResize(size);
   }
 }
