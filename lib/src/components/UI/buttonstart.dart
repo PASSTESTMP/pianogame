@@ -10,7 +10,7 @@ class Buttonstart extends RectangleComponent with TapCallbacks {
   Buttonstart({required this.startGame}):super(
     paint: Paint()..color = transparent,
     size: Vector2(sliderWidth, sliderHeight),
-    position: Vector2(10*whiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2)
+    position: Vector2(10*defaultWhiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2)
   );
 
 

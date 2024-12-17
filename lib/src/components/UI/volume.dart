@@ -9,7 +9,7 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   Volume({required this.changeVolume, this.outVolume=defaultVomule}):super(
     paint: Paint()..color = transparent,
     size: Vector2(sliderWidth, sliderHeight),
-    position: Vector2(10*whiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - sliderHeight*4/2)
+    position: Vector2(10*defaultWhiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - sliderHeight*4/2)
   );
 
   double volume = defaultVomule; // Początkowa głośność

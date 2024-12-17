@@ -15,6 +15,13 @@ class PianoKey extends RectangleComponent with TapCallbacks {
   bool isStarted = false;
   double actVolume = 0.1;
   Function getVolume;
+  double whiteKeyWidth = defaultWhiteKeyWidth;
+  double  whiteKeyHeight = defaultWhiteKeyHeight;
+  double  blackKeyWidth = defaultBlackKeyWidth;
+  double  blackKeyHeight = defaultBlackKeyHeight;
+  // TODO: add dependency from configuration parameters
+  int numberOfWhiteKeys = 9;
+
   PianoKey({
     required this.note,
     required this.activation,
@@ -227,5 +234,15 @@ class PianoKey extends RectangleComponent with TapCallbacks {
       0);
     size = white ? Vector2(whiteKeyWidth, whiteKeyHeight) : Vector2(blackKeyWidth, blackKeyHeight);
     return super.onLoad();
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    whiteKeyWidth = size.x * 0.9 / numberOfWhiteKeys;
+    whiteKeyHeight = size.y / 2;
+    blackKeyWidth = whiteKeyWidth * 0.8;
+    blackKeyHeight = whiteKeyHeight * 0.6;
+
+    super.onGameResize(size);
   }
 }
