@@ -6,10 +6,11 @@ import 'package:pianogame/src/config.dart';
 class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   double outVolume;
   Function changeVolume;
+  double sliderWidth = defaultSliderWidth;
+  double slidertHeight = defaultSliderWidth;
   Volume({required this.changeVolume, this.outVolume=defaultVomule}):super(
     paint: Paint()..color = transparent,
-    size: Vector2(sliderWidth, sliderHeight),
-    position: Vector2(10*defaultWhiteKeyWidth, (keyboardHeight - 3*(gameWidth/2-keyboardWidth/2))/2 - sliderHeight*4/2)
+    anchor: Anchor.center,
   );
 
   double volume = defaultVomule; // Początkowa głośność
@@ -20,8 +21,8 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
 
   @override
   Future<void> onLoad() async {
-    _sliderRect = RectangleComponent(position: Vector2(0, 0), size: Vector2(sliderWidth, sliderHeight));
-    _knobRect = RectangleComponent(paint: (Paint()..color= blackKey), position: Vector2(volume * sliderWidth - 10, -10), size: Vector2(20, 40));
+    _sliderRect = RectangleComponent(position: Vector2(0, 0), size: Vector2(defaultSliderWidth, sliderHeight));
+    _knobRect = RectangleComponent(paint: (Paint()..color= blackKey), position: Vector2(volume * defaultSliderWidth - 10, -10), size: Vector2(20, 40));
     _updateSlider();
     add(_sliderRect);
     add(_knobRect);
@@ -43,31 +44,33 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
 
   // Funkcja do aktualizacji głośności na podstawie położenia wskaźnika
   void _updateVolume(double x) {
-    double relativeX = (x).clamp(0, sliderWidth);
-    volume = relativeX / sliderWidth;
+    double relativeX = (x).clamp(0, defaultSliderWidth);
+    volume = relativeX / defaultSliderWidth;
     _updateSlider();
   }
 
   // Aktualizuje pozycje prostokątów (paska i wskaźnika)
   void _updateSlider() {
-    _knobRect.position.x =volume * sliderWidth - 10;
-    // RectangleComponent _knobRect = Rect.fromLTWH(position.x + volume * sliderWidth - 10, position.y - 10, 20, 40);
+    _knobRect.position.x =volume * defaultSliderWidth - 10;
+    // RectangleComponent _knobRect = Rect.fromLTWH(position.x + volume * defaultSliderWidth - 10, position.y - 10, 20, 40);
     
     
     
   }
 
+  @override
+  void onGameResize(Vector2 newSize) {
+    sliderWidth = newSize.x * 0.9 / 5;
+    slidertHeight = newSize.y * 0.9 / 50;
 
+    position = Vector2(
+      sliderWidth,
+      -newSize.y * 4 / 9);
+    size = Vector2(
+      sliderWidth,
+      slidertHeight);
 
-  // Volume({required this.inVolume}):super(
-  //   value: inVolume,
-  //   min: 0.0,
-  //   max: 1.0,
-  //   onChanged: (value) {
-  //     var outVolume = value;
-  //     FlameAudio.bgm.(outVolume);
-
-  //   },
-  // );
+    super.onGameResize(newSize);
+  }
 
 }

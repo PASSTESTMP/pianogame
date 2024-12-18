@@ -21,10 +21,11 @@ class PianoGame extends FlameGame with KeyboardEvents {
   double gameVolume = defaultVomule;
   late Gameconf gameconf;
   PianoGame()
-  :super(camera: CameraComponent.withFixedResolution(
-    width: gameWidth,
-    height: gameHeight,
-    )
+  :super(
+    // camera: CameraComponent.withFixedResolution(
+    // width: gameWidth,
+    // height: gameHeight,
+    // )
   );
 
   Gamelogic logic = Gamelogic();
@@ -150,7 +151,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
       startGame: startGame,
       changeTempo: changeTempo,
       changeNumberOfNotes: changeNumberOfNotes,
-      changeVolume: changeVolume,
       );
     
 
@@ -161,7 +161,9 @@ class PianoGame extends FlameGame with KeyboardEvents {
 
     world.add(gameconf);
     
-
+    Volume volumeSlider = Volume(changeVolume: changeVolume);
+    
+    world.add(volumeSlider);
     
 
     return super.onLoad();
