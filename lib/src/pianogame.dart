@@ -19,13 +19,16 @@ class PianoGame extends FlameGame with KeyboardEvents {
   int gameScore = 0;
   double gameVolume = defaultVomule;
   late Gameconf gameconf;
+  late Volume volumeSlider;
   PianoGame()
   :super(
     // camera: CameraComponent.withFixedResolution(
     // width: gameWidth,
     // height: gameHeight,
     // )
-  );
+  ){
+    volumeSlider = Volume(changeVolume: changeVolume);
+  }
 
   Gamelogic logic = Gamelogic();
 
@@ -140,6 +143,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     logic.start();
     gameboard = Gameboard(numberOfNotes: numberOfNotes);
     world.add(gameboard);
+    bringVolumeToFront();
   }
 
   @override
@@ -159,8 +163,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
     world.debugMode = true;
 
     world.add(gameconf);
-    
-    Volume volumeSlider = Volume(changeVolume: changeVolume);
 
     world.add(volumeSlider);
     
@@ -173,6 +175,11 @@ class PianoGame extends FlameGame with KeyboardEvents {
       await FlameAudio.audioCache.load(source);
       FlameAudio.play(source, volume: gameVolume);
     }
+  }
+
+  void bringVolumeToFront() {
+    world.remove(volumeSlider); // Usuń komponent z hierarchii
+    world.add(volumeSlider);    // Ponownie go dodaj (teraz będzie na wierzchu)
   }
 
   @override
@@ -279,6 +286,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     activeKeys = [];
     world.remove(world.children.query<Gamescore>().first);
     world.add(gameconf);
+    bringVolumeToFront();
     activateKeys();
   }
 }
