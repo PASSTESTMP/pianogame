@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -162,7 +161,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     world.add(gameconf);
     
     Volume volumeSlider = Volume(changeVolume: changeVolume);
-    
+
     world.add(volumeSlider);
     
 

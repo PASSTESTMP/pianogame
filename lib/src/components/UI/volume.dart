@@ -18,14 +18,17 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   // Wskaźnik pozycji
   late RectangleComponent _sliderRect;
   late RectangleComponent _knobRect;
+  late RectangleComponent _icon;
 
   @override
   Future<void> onLoad() async {
-    _sliderRect = RectangleComponent(position: Vector2(0, 0), size: Vector2(defaultSliderWidth, sliderHeight));
-    _knobRect = RectangleComponent(paint: (Paint()..color= blackKey), position: Vector2(volume * defaultSliderWidth - 10, -10), size: Vector2(20, 40));
+    _sliderRect = RectangleComponent();
+    _knobRect = RectangleComponent(paint: (Paint()..color= blackKey), anchor: Anchor.center);
+    _icon = RectangleComponent();
     _updateSlider();
     add(_sliderRect);
     add(_knobRect);
+    add(_icon);
   }
 
   @override
@@ -44,19 +47,21 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
 
   // Funkcja do aktualizacji głośności na podstawie położenia wskaźnika
   void _updateVolume(double x) {
-    double relativeX = (x).clamp(0, defaultSliderWidth);
-    volume = relativeX / defaultSliderWidth;
+    double relativeX = (x).clamp(0, sliderWidth);
+    volume = relativeX / sliderWidth;
     _updateSlider();
   }
 
   // Aktualizuje pozycje prostokątów (paska i wskaźnika)
   void _updateSlider() {
-    _knobRect.position.x =volume * defaultSliderWidth - 10;
-    // RectangleComponent _knobRect = Rect.fromLTWH(position.x + volume * defaultSliderWidth - 10, position.y - 10, 20, 40);
-    
-    
-    
-  }
+    if(volume * sliderWidth < _knobRect.size.x/2){
+      _knobRect.position.x = _knobRect.size.x/2;
+    }else if(volume * sliderWidth > sliderWidth - _knobRect.size.x/2){
+      _knobRect.position.x = sliderWidth - _knobRect.size.x/2;
+    }else{
+      _knobRect.position.x = volume * sliderWidth;
+    }
+    }
 
   @override
   void onGameResize(Vector2 newSize) {
@@ -68,7 +73,25 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
       -newSize.y * 4 / 9);
     size = Vector2(
       sliderWidth,
+      slidertHeight*3);
+
+    _sliderRect.position = Vector2(0, slidertHeight);
+    _sliderRect.size = Vector2(
+      sliderWidth,
       slidertHeight);
+
+    _knobRect.position.y = slidertHeight*3 / 2;
+    if(volume * sliderWidth < _knobRect.size.x/2){
+      _knobRect.position.x = _knobRect.size.x/2;
+    }else if(volume * sliderWidth > sliderWidth - _knobRect.size.x/2){
+      _knobRect.position.x = sliderWidth - _knobRect.size.x/2;
+    }else{
+      _knobRect.position.x = volume * sliderWidth;
+    }
+    _knobRect.size = Vector2(sliderWidth/10, slidertHeight*3);
+
+    _icon.size = Vector2(slidertHeight*3, slidertHeight*3);
+    _icon.position = Vector2(-slidertHeight*3, 0);
 
     super.onGameResize(newSize);
   }
