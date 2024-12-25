@@ -12,6 +12,8 @@ class Gameconf extends RectangleComponent {
   Function changeNumberOfNotes;
   double gameconfWidth = 0;
   double gameconfHeight = 0;
+  late DropDown tempoSelector;
+  late DropDown notesSelector;
   Gameconf({
     required this.startGame,
     required this.changeTempo,
@@ -19,15 +21,8 @@ class Gameconf extends RectangleComponent {
   :super(
     paint: Paint()..color = backColor,
     anchor: Anchor.center,
-  );
-
-  int tempo = 120;
-  int noteNumber = 6;
-
-  @override
-  FutureOr<void> onLoad() {
-
-    DropDown tempoSelector = DropDown(
+  ){
+    tempoSelector = DropDown(
       parameterName: "TEMPO",
       actVal: tempo.toString(),
       values: tempoValues,
@@ -35,13 +30,22 @@ class Gameconf extends RectangleComponent {
       size: Vector2(100, 100),
       changeFunction: changeTempo);
 
-    DropDown notesSelector = DropDown(
+    notesSelector = DropDown(
       parameterName: "NUMBER OF NOTES",
       actVal: noteNumber.toString(),
       values: numberOfNotesValues,
       position: Vector2(300, 100),
       size: Vector2(100, 100),
       changeFunction: changeNumberOfNotes);
+  }
+
+  int tempo = 120;
+  int noteNumber = 6;
+
+  @override
+  FutureOr<void> onLoad() {
+
+    
 
 
     Buttonstart start = Buttonstart(startGame: startGame);
@@ -65,6 +69,35 @@ class Gameconf extends RectangleComponent {
     size = Vector2(
       gameconfWidth,
       gameconfHeight);
+
+    double selectorWidth;
+    double selectorHeight;
+
+    if(newSize.x * 0.9 /3 > newSize.y * 0.9 / 4){
+      selectorWidth = newSize.y * 0.9 / 4;
+      selectorHeight = selectorWidth;
+    }else{
+      selectorWidth = newSize.x * 0.9 /3;
+      selectorHeight = selectorWidth;
+    }
+
+    double notesSelectorX = newSize.x * 0.9 - (newSize.x * 0.9 / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
+    double notesSelectorY = newSize.y * 0.9 / 4 - selectorHeight/2;
+
+    double tempoSelectorX = (newSize.x * 0.9 / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
+    double tempoSelectorY = newSize.y * 0.9 / 4 - selectorHeight/2;
+
+    tempoSelector.size = Vector2(selectorWidth, selectorHeight);
+    tempoSelector.position = Vector2(tempoSelectorX, tempoSelectorY);
+
+    notesSelector.size = Vector2(selectorWidth, selectorHeight);
+    notesSelector.position = Vector2(notesSelectorX, notesSelectorY);
+    
+
+    // position = Vector2(
+    //   newSize.x * 0.9 / 2,
+    //   newSize.y * 0.9 / 4);
+
 
     super.onGameResize(newSize);
   }
