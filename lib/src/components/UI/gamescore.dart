@@ -42,8 +42,8 @@ class Gamescore extends RectangleComponent with TapCallbacks{
     gamescoreHeight = newSize.y / 2 * 0.9;
 
     position = Vector2(
-      0,
-      -newSize.y / 4);
+      -gamescoreWidth/2,
+      -newSize.y / 4 - gamescoreHeight/2);
     size = Vector2(
       gamescoreWidth,
       gamescoreHeight);
