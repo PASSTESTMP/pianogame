@@ -13,12 +13,13 @@ import 'package:flutter/material.dart';
 class DropElement extends PositionComponent with TapCallbacks {
   String actVal;
   Function setActualValue;
+  double positionPoint;
   DropElement({
     required this.actVal,
-    required Vector2 position,
+    required this.positionPoint,
     required Vector2 size,
     required this.setActualValue,
-  }) : super(position: position, size: size);
+  }) : super(position: Vector2.zero(), size: size);
 
   @override
   void render(Canvas canvas) {
@@ -41,9 +42,29 @@ class DropElement extends PositionComponent with TapCallbacks {
 
   @override
   void onTapDown(TapDownEvent event) {
-    // TODO: implement onTapDown
     setActualValue(actVal);
     super.onTapDown(event);
+  }
+
+  @override
+  void onGameResize(Vector2 newSize) {
+    double elementWidth;
+    double elementHeight;
+
+    if(newSize.x * 0.9 /3 > newSize.y * 0.9 / 4){
+      elementWidth = newSize.y * 0.9 / 4;
+      elementHeight = elementWidth;
+    }else{
+      elementWidth = newSize.x * 0.9 /3;
+      elementHeight = elementWidth;
+    }
+
+    position = Vector2(
+      newSize.x * 0.9 * positionPoint - elementWidth,
+      newSize.y * 0.9 / 4
+    );
+    size = Vector2(elementWidth, elementHeight);
+    super.onGameResize(newSize);
   }
 }
 
@@ -104,7 +125,7 @@ class DropDown extends PositionComponent with TapCallbacks {
         additionalFields.add(
           DropElement(
             actVal: values.elementAt(i).toString(),
-            position: position + Vector2(0, (i+1)* (size.y + 10)),
+            positionPoint: (i+1)/(values.length),
             size: size,
             setActualValue: setActVal,
           ),
