@@ -160,7 +160,10 @@ class PianoGame extends FlameGame with KeyboardEvents {
     world.add(keyboard);
     keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
 
-    world.debugMode = true;
+
+    // +++++++++++++ DEBUG ++++++++++
+    // TODO: DEBUGMODE
+    world.debugMode = false;
 
     world.add(gameconf);
 
