@@ -8,6 +8,7 @@ drag i move przesowa gora dol, pozycje tak by jeden byl na srodku z minimalna an
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:pianogame/src/components/UI/UIdefaults/killface.dart';
 
 
 class DropElement extends PositionComponent with TapCallbacks {
@@ -71,7 +72,7 @@ class DropElement extends PositionComponent with TapCallbacks {
 
 class DropDown extends PositionComponent with TapCallbacks {
   bool expanded = false;
-  late List<DropElement> additionalFields;
+  late List<Component> additionalFields;
   String actVal = "";
   String parameterName = "";
   List values = List.empty();
@@ -114,11 +115,20 @@ class DropDown extends PositionComponent with TapCallbacks {
     changeFunction(val);
   }
 
+  void killDropDown() {
+    expanded = false;
+    if (additionalFields.isNotEmpty){
+      additionalFields.forEach(parent!.remove);
+    }
+
+  }
+
   @override
   void onTapDown(TapDownEvent event) {
     if (!expanded) {
       expanded = true;
-      additionalFields = [];
+
+      additionalFields = [Killface(killFunction: killDropDown)];
 
       for(var i = 0; i < values.length; i++){
         
