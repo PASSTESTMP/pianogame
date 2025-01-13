@@ -6,6 +6,7 @@ import 'package:pianogame/src/config.dart';
 
 class Gameboard extends RectangleComponent {
   int numberOfNotes;
+  List emptySpaces = [];
   int actualNumber = 0;
   double gameboardWidth = 0;
   double gameboardHeight = 0;
@@ -26,16 +27,20 @@ class Gameboard extends RectangleComponent {
     actualNumber++;
   }
 
+  void addSpace(var item){
+    add(item);
+  }
+
   @override
   FutureOr<void> onLoad() {
     for(int i=0; i<numberOfNotes; i++){
       RectangleComponent emptySpace = RectangleComponent(
-        // size: Vector2(keyboardWidth/2/numberOfNotes, spaceHeight),
-        // position: Vector2(2*i*keyboardWidth/2/numberOfNotes + keyboardWidth/2/numberOfNotes/2, keyboardHeight/2)
       );
 
-      add(emptySpace);
+      emptySpaces.add(emptySpace);
     }
+
+    emptySpaces.forEach(addSpace);
     
 
     return super.onLoad();
@@ -52,6 +57,14 @@ class Gameboard extends RectangleComponent {
     size = Vector2(
       gameboardWidth,
       gameboardHeight);
+    
+    void resizeSpace(var item){
+      int i = emptySpaces.indexOf(item);
+      item.size = Vector2(gameboardWidth/2/numberOfNotes, spaceHeight);
+      item.position = Vector2(2*i*gameboardWidth/2/numberOfNotes + gameboardWidth/2/numberOfNotes/2, gameboardHeight/2);
+    }
+
+    emptySpaces.forEach(resizeSpace);
 
     super.onGameResize(newSize);
   }
@@ -62,6 +75,7 @@ class NoteIndicator extends TextComponent {
   int number;
   int numberOfNotes;
   bool correct;
+  late TextStyle textStyle;
   NoteIndicator({
     required this.note,
     required this.number,
@@ -72,19 +86,25 @@ class NoteIndicator extends TextComponent {
   @override
   FutureOr<void> onLoad() {
     text = note;
-    // size = Vector2(keyboardWidth/2/numberOfNotes, keyboardWidth/2/numberOfNotes);
-    // position = Vector2(
-    //   2*number*keyboardWidth/2/numberOfNotes + keyboardWidth/2/numberOfNotes/2,
-    //   keyboardHeight/2 - keyboardWidth/2/numberOfNotes
-    // );
-    final textStyle = TextStyle(
-      color: correct ? Colors.green : Colors.red, // Kolor czcionki
-      // fontSize: keyboardWidth/2/numberOfNotes*0.8,      // Rozmiar czcionki
-    );
+    return super.onLoad();
+  }
 
+  @override
+  void onGameResize(Vector2 newSize) {
+    size = Vector2(newSize.x * 0.9/2/numberOfNotes, newSize.x * 0.9/2/numberOfNotes);
+    position = Vector2(
+       2*number*newSize.x * 0.9/2/numberOfNotes + newSize.x * 0.9/2/numberOfNotes/2,
+       newSize.y / 2 * 0.9/2 - newSize.x * 0.9/2/numberOfNotes
+     );
+
+    textStyle = TextStyle(
+      color: correct ? Colors.green : Colors.red, // Kolor czcionki
+      fontSize: newSize.x * 0.9/2/numberOfNotes*0.8,      // Rozmiar czcionki
+    );
     final textPaint = TextPaint(style: textStyle);
     textRenderer = textPaint;
-    return super.onLoad();
+      
+    super.onGameResize(newSize);
   }
 
 }
