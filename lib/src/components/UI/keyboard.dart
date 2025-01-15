@@ -51,12 +51,12 @@ class Keyboard extends RectangleComponent {
 
   @override
   void onGameResize(Vector2 newSize) {
-    keyboardWidth = newSize.x * 0.9;
-    keyboardHeight = newSize.y * 0.9 / 2;
+    keyboardWidth = newSize.x * magicPadding;
+    keyboardHeight = newSize.y * magicPadding * (1 - 1/magicDivision);
 
     position = Vector2(
       0,
-      keyboardHeight/2);
+      keyboardHeight / 4);
     size = Vector2(
       keyboardWidth,
       keyboardHeight);

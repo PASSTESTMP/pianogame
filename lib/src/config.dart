@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double magicPadding = 0.9;
+const double magicDivision = 3;
 const double gameWidth = 1920;
 const double gameHeight = 1080;
 const double defaultKeyboardWidth = 1880;
@@ -16,7 +18,6 @@ const double tempoWidth = 4 * defaultWhiteKeyWidth;
 const double tempoHeight = defaultWhiteKeyHeight;
 const double notesWidth = 4 * defaultWhiteKeyWidth;
 const double notesHeight = defaultWhiteKeyHeight;
-const double spaceHeight = 20;
 const Color  whiteKey = Color.fromARGB(255, 255, 255, 255);
 const Color  blackKey = Color.fromARGB(255, 0, 0, 0);
 const Color  backColor = Color.fromARGB(255, 54, 54, 54);

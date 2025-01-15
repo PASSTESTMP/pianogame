@@ -239,8 +239,8 @@ class PianoKey extends RectangleComponent with TapCallbacks {
 
   @override
   void onGameResize(Vector2 newSize) {
-    whiteKeyWidth = (newSize.x - numberOfWhiteKeys)* 0.9 / numberOfWhiteKeys;
-    whiteKeyHeight = newSize.y / 2 * 0.9;
+    whiteKeyWidth = (newSize.x - numberOfWhiteKeys)* magicPadding / numberOfWhiteKeys;
+    whiteKeyHeight = newSize.y * (1-1/magicDivision) * magicPadding;
     blackKeyWidth = whiteKeyWidth * 0.8;
     blackKeyHeight = whiteKeyHeight * 0.6;
 

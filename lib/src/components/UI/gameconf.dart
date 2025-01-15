@@ -60,12 +60,12 @@ class Gameconf extends RectangleComponent {
 
   @override
   void onGameResize(Vector2 newSize) {
-    gameconfWidth = newSize.x * 0.9;
-    gameconfHeight = newSize.y / 2 * 0.9;
+    gameconfWidth = newSize.x * magicPadding;
+    gameconfHeight = newSize.y / magicDivision * magicPadding;
 
     position = Vector2(
       0,
-      -newSize.y / 4);
+      - newSize.y / magicDivision);
     size = Vector2(
       gameconfWidth,
       gameconfHeight);
@@ -73,19 +73,19 @@ class Gameconf extends RectangleComponent {
     double selectorWidth;
     double selectorHeight;
 
-    if(newSize.x * 0.9 /3 > newSize.y * 0.9 / 4){
-      selectorWidth = newSize.y * 0.9 / 4;
+    if(gameconfWidth / 3 > gameconfHeight / 2){
+      selectorWidth = gameconfHeight / 2;
       selectorHeight = selectorWidth;
     }else{
-      selectorWidth = newSize.x * 0.9 /3;
+      selectorWidth = gameconfWidth / 3;
       selectorHeight = selectorWidth;
     }
 
-    double notesSelectorX = newSize.x * 0.9 - (newSize.x * 0.9 / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
-    double notesSelectorY = newSize.y * 0.9 / 4 - selectorHeight/2;
+    double notesSelectorX = gameconfWidth - (gameconfWidth / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
+    double notesSelectorY = gameconfHeight / 2 - selectorHeight/2;
 
-    double tempoSelectorX = (newSize.x * 0.9 / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
-    double tempoSelectorY = newSize.y * 0.9 / 4 - selectorHeight/2;
+    double tempoSelectorX = (gameconfWidth / 2 - selectorWidth/2)/ 2 - selectorWidth/2;
+    double tempoSelectorY = gameconfHeight / 2 - selectorHeight/2;
 
     tempoSelector.size = Vector2(selectorWidth, selectorHeight);
     tempoSelector.position = Vector2(tempoSelectorX, tempoSelectorY);

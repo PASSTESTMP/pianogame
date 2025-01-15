@@ -48,20 +48,26 @@ class Gameboard extends RectangleComponent {
   
   @override
   void onGameResize(Vector2 newSize) {
-    gameboardWidth = newSize.x * 0.9;
-    gameboardHeight = newSize.y / 2 * 0.9;
+    gameboardWidth = newSize.x * magicPadding;
+    gameboardHeight = newSize.y / magicDivision * magicPadding;
 
     position = Vector2(
       0,
-      -newSize.y / 4);
+      -newSize.y * (1 - 1/magicDivision) / 2);
     size = Vector2(
       gameboardWidth,
       gameboardHeight);
     
     void resizeSpace(var item){
       int i = emptySpaces.indexOf(item);
-      item.size = Vector2(gameboardWidth/2/numberOfNotes, spaceHeight);
-      item.position = Vector2(2*i*gameboardWidth/2/numberOfNotes + gameboardWidth/2/numberOfNotes/2, gameboardHeight/2);
+      item.size = Vector2(
+        gameboardWidth/2/numberOfNotes,
+        gameboardHeight / 10
+        );
+      item.position = Vector2(
+        2*i*gameboardWidth/2/numberOfNotes + gameboardWidth/2/numberOfNotes/2,
+        gameboardHeight / 3 * 2
+        );
     }
 
     emptySpaces.forEach(resizeSpace);
@@ -91,15 +97,22 @@ class NoteIndicator extends TextComponent {
 
   @override
   void onGameResize(Vector2 newSize) {
-    size = Vector2(newSize.x * 0.9/2/numberOfNotes, newSize.x * 0.9/2/numberOfNotes);
+
+    final double boardWidth = newSize.x * magicPadding / 2;
+    final double boardHeight = newSize.x * magicPadding / magicDivision;
+
+    size = Vector2(
+      boardWidth / numberOfNotes,
+      boardHeight / numberOfNotes);
+
     position = Vector2(
-       2*number*newSize.x * 0.9/2/numberOfNotes + newSize.x * 0.9/2/numberOfNotes/2,
-       newSize.y / 2 * 0.9/2 - newSize.x * 0.9/2/numberOfNotes
+       2*number*boardWidth/numberOfNotes + boardWidth/numberOfNotes/2,
+       newSize.y / magicDivision * magicPadding / 3 * 2 - boardWidth/numberOfNotes
      );
 
     textStyle = TextStyle(
       color: correct ? Colors.green : Colors.red, // Kolor czcionki
-      fontSize: newSize.x * 0.9/2/numberOfNotes*0.8,      // Rozmiar czcionki
+      fontSize: boardWidth/numberOfNotes*0.8,      // Rozmiar czcionki
     );
     final textPaint = TextPaint(style: textStyle);
     textRenderer = textPaint;

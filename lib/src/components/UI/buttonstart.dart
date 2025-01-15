@@ -30,18 +30,18 @@ class Buttonstart extends RectangleComponent with TapCallbacks {
 
   @override
   void onGameResize(Vector2 newSize) {
-    if(newSize.x * 0.9 /3 > newSize.y * 0.9 / 4){
-      buttonStartWidth = newSize.y * 0.9 / 4;
+    if(newSize.x * magicPadding /3 > newSize.y * magicPadding / magicDivision / 2){
+      buttonStartWidth = newSize.y * magicPadding / magicDivision / 2;
       buttonStartHeight = buttonStartWidth;
     }else{
-      buttonStartWidth = newSize.x * 0.9 /3;
+      buttonStartWidth = newSize.x * magicPadding /3;
       buttonStartHeight = buttonStartWidth;
     }
     
 
     position = Vector2(
-      newSize.x * 0.9 / 2,
-      newSize.y * 0.9 / 4);
+      newSize.x * magicPadding / 2,
+      newSize.y * magicPadding / magicDivision / 2);
     size = Vector2(
       buttonStartWidth,
       buttonStartHeight);

@@ -5,10 +5,13 @@ drag i move przesowa gora dol, pozycje tak by jeden byl na srodku z minimalna an
 
 */
 
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:pianogame/src/components/UI/UIdefaults/killface.dart';
+import 'package:pianogame/src/config.dart';
 
 
 class DropElement extends PositionComponent with TapCallbacks {
@@ -49,20 +52,22 @@ class DropElement extends PositionComponent with TapCallbacks {
 
   @override
   void onGameResize(Vector2 newSize) {
+    double boardWidth = newSize.x * magicPadding;
+    double boardHeight = newSize.y * magicPadding/ magicDivision;
     double elementWidth;
     double elementHeight;
 
-    if(newSize.x * 0.9 /3 > newSize.y * 0.9 / 4){
-      elementWidth = newSize.y * 0.9 / 4;
+    if(boardWidth /3 > boardHeight / 2){
+      elementWidth = boardHeight / 2;
       elementHeight = elementWidth;
     }else{
-      elementWidth = newSize.x * 0.9 /3;
+      elementWidth = boardWidth /3;
       elementHeight = elementWidth;
     }
 
     position = Vector2(
-      newSize.x * 0.9 * positionPoint - elementWidth,
-      newSize.y * 0.9 / 4
+      boardWidth * positionPoint,
+      boardHeight / 4 * magicDivision
     );
     size = Vector2(elementWidth, elementHeight);
     super.onGameResize(newSize);
@@ -70,13 +75,14 @@ class DropElement extends PositionComponent with TapCallbacks {
 }
 
 
-class DropDown extends PositionComponent with TapCallbacks {
+class DropDown extends RectangleComponent with TapCallbacks {
   bool expanded = false;
   late List<Component> additionalFields;
   String actVal = "";
   String parameterName = "";
   List values = List.empty();
   Function changeFunction;
+  TextComponent caption = TextComponent();
 
   DropDown({
     required this.parameterName,
@@ -85,27 +91,21 @@ class DropDown extends PositionComponent with TapCallbacks {
     required Vector2 position,
     required Vector2 size,
     required this.changeFunction,
-  }) : super(position: position, size: size);
-
-
+  }) : super(
+    position: position,
+    size: size,
+    paint: Paint()..color = const Color.fromARGB(255, 47, 54, 59)
+    );
 
   @override
-  void render(Canvas canvas) {
-    final Paint paint = Paint()..color = const Color.fromARGB(255, 47, 54, 59);
-    canvas.drawRect(size.toRect(), paint);
-
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: "$parameterName: $actVal",
-        style: TextStyle(color: Colors.white, fontSize: 18),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(size.x / 2 - textPainter.width / 2, size.y / 2 - textPainter.height / 2),
-    );
+  FutureOr<void> onLoad() {
+    caption = TextComponent(
+      text: "$parameterName: $actVal",
+      anchor: Anchor.center,
+      position: Vector2(size.x / 2, size.y / 2)
+      );
+    add(caption);
+    return super.onLoad();
   }
 
   void setActVal(String val){
@@ -113,6 +113,7 @@ class DropDown extends PositionComponent with TapCallbacks {
     actVal = val;
     additionalFields.forEach(parent!.remove);
     changeFunction(val);
+    caption.text = "$parameterName: $actVal";
   }
 
   void killDropDown() {
@@ -135,7 +136,7 @@ class DropDown extends PositionComponent with TapCallbacks {
         additionalFields.add(
           DropElement(
             actVal: values.elementAt(i).toString(),
-            positionPoint: (i+1)/(values.length),
+            positionPoint: (i)/values.length,
             size: size,
             setActualValue: setActVal,
           ),
@@ -148,5 +149,11 @@ class DropDown extends PositionComponent with TapCallbacks {
       additionalFields.forEach(parent!.remove);
     }
     super.onTapDown(event);
+  }
+
+  @override
+  void onGameResize(Vector2 newSize) {
+    caption.position = Vector2(size.x / 2, size.y / 2);
+    super.onGameResize(newSize);
   }
 }

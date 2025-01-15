@@ -10,6 +10,7 @@ class Gamescore extends RectangleComponent with TapCallbacks{
   Function restart;
   double gamescoreWidth = 0;
   double gamescoreHeight = 0;
+  late TextComponent scoreIndicator;
   Gamescore({required this.score, required this.restart})
   :super(
     // position: Vector2(
@@ -30,7 +31,7 @@ class Gamescore extends RectangleComponent with TapCallbacks{
   FutureOr<void> onLoad() {
     // add(volumeSlider);
 
-    TextComponent scoreIndicator = TextComponent(text: score.toString());
+    scoreIndicator = TextComponent(text: score.toString(), anchor: Anchor.center);
     add(scoreIndicator);
 
     return super.onLoad();
@@ -38,15 +39,24 @@ class Gamescore extends RectangleComponent with TapCallbacks{
 
   @override
   void onGameResize(Vector2 newSize) {
-    gamescoreWidth = newSize.x * 0.9;
-    gamescoreHeight = newSize.y / 2 * 0.9;
+    gamescoreWidth = newSize.x * magicPadding;
+    gamescoreHeight = newSize.y * magicPadding / magicDivision ;
 
     position = Vector2(
       -gamescoreWidth/2,
-      -newSize.y / 4 - gamescoreHeight/2);
+      -newSize.y / magicDivision - gamescoreHeight / 2
+      );
     size = Vector2(
       gamescoreWidth,
       gamescoreHeight);
+
+    final TextStyle textStyle = TextStyle(
+      fontSize: gamescoreHeight/3,
+      color: score > 66 ? Colors.green : score > 33 ? Colors.yellow : Colors.red
+    );
+    final textPaint = TextPaint(style: textStyle);
+    scoreIndicator.textRenderer = textPaint;
+    scoreIndicator.position = Vector2(gamescoreWidth/2, gamescoreHeight/2);
 
     super.onGameResize(newSize);
   }
