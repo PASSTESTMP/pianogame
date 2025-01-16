@@ -94,7 +94,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
   }) : super(
     position: position,
     size: size,
-    paint: Paint()..color = const Color.fromARGB(255, 47, 54, 59)
+    paint: Paint()..color = transparent
     );
 
   @override
