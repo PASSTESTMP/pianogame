@@ -18,6 +18,7 @@ class Gameboard extends RectangleComponent {
 
 
   void showUsedNote(String note, bool correctNote){
+    if(actualNumber >= numberOfNotes) return;
     NoteIndicator noteIndicator = NoteIndicator(
       note: note,
       number: actualNumber,
