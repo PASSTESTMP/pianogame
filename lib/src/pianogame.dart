@@ -111,8 +111,9 @@ class PianoGame extends FlameGame with KeyboardEvents {
     }
     await Future.delayed(Duration(seconds: 1));
     sort();
+    List<String> actualNoteList = keys.map((singleNote) => singleNote.note).toList();
     for(int i=0; i<activeKeys.length; i++){
-      var x = noteList.indexOf(activeKeys.elementAt(i));
+      var x = actualNoteList.indexOf(activeKeys.elementAt(i));
       playSound(keys.elementAt(x).lightKey());
       double msec = 60000/gameTempo;
       await Future.delayed(Duration(milliseconds: msec.toInt()));
@@ -121,7 +122,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
     await Future.delayed(Duration(seconds: 1));
     randomize();
     for(int i=0; i<activeKeys.length; i++){
-      var x = noteList.indexOf(activeKeys.elementAt(i));
+      var x = actualNoteList.indexOf(activeKeys.elementAt(i));
       playSound(keys.elementAt(x).lightKey());
       keys.elementAt(x).deactive();
       double msec = 60000/gameTempo;
