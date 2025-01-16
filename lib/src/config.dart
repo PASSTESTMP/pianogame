@@ -25,6 +25,7 @@ const Color selectedKey = Color.fromARGB(255, 93, 236, 255);
 const Color selectedBlackKey = Color.fromARGB(255, 49, 128, 138);
 const Color transparent = Color.fromARGB(0, 0, 0, 0);
 const Color notActive = Color.fromARGB(150, 117, 117, 117);
+const Color dropColor = Color.fromARGB(255, 117, 117, 117);
 const defaultVomule = 1.0;
 const defaultTempo = 60;
 const tempoValues = [60, 90, 120, 180];

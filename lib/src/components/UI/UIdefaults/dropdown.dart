@@ -17,7 +17,7 @@ import 'package:pianogame/src/config.dart';
 class DropElement extends PositionComponent with TapCallbacks {
   String actVal;
   Function setActualValue;
-  double positionPoint;
+  List<int> positionPoint; // [which, how many]
   DropElement({
     required this.actVal,
     required this.positionPoint,
@@ -27,7 +27,7 @@ class DropElement extends PositionComponent with TapCallbacks {
 
   @override
   void render(Canvas canvas) {
-    final Paint paint = Paint()..color = Colors.blue;
+    final Paint paint = Paint()..color = dropColor;
     canvas.drawRect(size.toRect(), paint);
 
     final textPainter = TextPainter(
@@ -66,7 +66,7 @@ class DropElement extends PositionComponent with TapCallbacks {
     }
 
     position = Vector2(
-      boardWidth * positionPoint,
+      boardWidth / positionPoint[1] * (positionPoint[0]) + boardWidth / positionPoint[1]/2 - elementWidth / 2,
       boardHeight / 4 * magicDivision
     );
     size = Vector2(elementWidth, elementHeight);
@@ -136,7 +136,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
         additionalFields.add(
           DropElement(
             actVal: values.elementAt(i).toString(),
-            positionPoint: (i)/values.length,
+            positionPoint: [i, values.length],
             size: size,
             setActualValue: setActVal,
           ),
