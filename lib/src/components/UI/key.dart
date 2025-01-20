@@ -63,6 +63,10 @@ class PianoKey extends RectangleComponent with TapCallbacks {
     return "";
   }
 
+  void changeVolume(double newVolume){
+    volume = newVolume;
+  }
+
   @override
   Future<void> onTapDown(TapDownEvent event) async {
     if(!active) return;

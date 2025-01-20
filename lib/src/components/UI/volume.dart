@@ -48,12 +48,13 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   // Funkcja do aktualizacji głośności na podstawie położenia wskaźnika
   void _updateVolume(double x) {
     double relativeX = (x).clamp(0, sliderWidth);
-    volume = relativeX / sliderWidth;
+    outVolume = relativeX / sliderWidth;
     _updateSlider();
   }
 
   // Aktualizuje pozycje prostokątów (paska i wskaźnika)
   void _updateSlider() {
+
     if(volume * sliderWidth < _knobRect.size.x/2){
       _knobRect.position.x = _knobRect.size.x/2;
     }else if(volume * sliderWidth > sliderWidth - _knobRect.size.x/2){

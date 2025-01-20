@@ -50,7 +50,9 @@ class Gameconf extends RectangleComponent {
 
     tempoIconComponent.sprite = tempoIcon;
 
-
+    Volume volumeSlider = Volume(changeVolume: changeVolume);
+    Tempo tempoSelector = Tempo();
+    Notes notesSelector = Notes();
     Buttonstart start = Buttonstart(startGame: startGame);
 
     add(tempoIconComponent);

@@ -58,6 +58,13 @@ class PianoGame extends FlameGame with KeyboardEvents {
     } 
   }
 
+  void changeVolume(double newVolume){
+    gameVolume = newVolume;
+    for(int i=0; i<keys.length; i++){
+      keys.elementAt(i).volume = gameVolume;
+    }
+  }
+
   void sort(){
     Map <double, String> sorter = {};
     for(int i=0; i<keys.length; i++){
@@ -156,7 +163,6 @@ class PianoGame extends FlameGame with KeyboardEvents {
       changeTempo: changeTempo,
       changeNumberOfNotes: changeNumberOfNotes,
       );
-    
 
     world.add(keyboard);
     keys = world.children.query<Keyboard>().first.children.query<PianoKey>();
