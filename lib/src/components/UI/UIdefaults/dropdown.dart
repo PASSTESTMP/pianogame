@@ -73,7 +73,7 @@ class DropElement extends PositionComponent with TapCallbacks {
     );
     size = Vector2(elementWidth, elementHeight);
 
-    fontSize = size.y/4;
+    fontSize = size.y/2;
 
     super.onGameResize(newSize);
   }
@@ -159,7 +159,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
 
   @override
   void onGameResize(Vector2 newSize) {
-    double newFontSize = size.y/4;
+    double newFontSize = size.y/2;
 
     caption.textRenderer = TextPaint(
         style: TextStyle(

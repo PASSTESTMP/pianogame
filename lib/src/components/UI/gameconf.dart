@@ -99,10 +99,10 @@ class Gameconf extends RectangleComponent {
     notesSelector.position = Vector2(notesSelectorX, notesSelectorY);
     
 
-    tempoIconComponent.size = Vector2(selectorWidth/3, selectorHeight/3);
+    tempoIconComponent.size = Vector2(selectorWidth/2, selectorHeight/2);
     tempoIconComponent.position = Vector2(
-      tempoSelectorX - selectorWidth/3,
-      tempoIconComponent.size.y+selectorHeight/2
+      tempoSelectorX - selectorWidth/2,
+      tempoIconComponent.size.y+selectorHeight/4
       );
 
     // position = Vector2(
