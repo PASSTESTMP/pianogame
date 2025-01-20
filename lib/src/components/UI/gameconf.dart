@@ -12,6 +12,7 @@ class Gameconf extends RectangleComponent {
   Function changeNumberOfNotes;
   double gameconfWidth = 0;
   double gameconfHeight = 0;
+  SpriteComponent tempoIconComponent = SpriteComponent();
   late DropDown tempoSelector;
   late DropDown notesSelector;
   Gameconf({
@@ -23,7 +24,7 @@ class Gameconf extends RectangleComponent {
     anchor: Anchor.center,
   ){
     tempoSelector = DropDown(
-      parameterName: "TEMPO",
+      parameterName: " =",
       actVal: tempo.toString(),
       values: tempoValues,
       position: Vector2(100, 100),
@@ -31,7 +32,7 @@ class Gameconf extends RectangleComponent {
       changeFunction: changeTempo);
 
     notesSelector = DropDown(
-      parameterName: "NUMBER OF NOTES",
+      parameterName: "NUMBER OF NOTES:",
       actVal: noteNumber.toString(),
       values: numberOfNotesValues,
       position: Vector2(300, 100),
@@ -43,12 +44,16 @@ class Gameconf extends RectangleComponent {
   int noteNumber = 6;
 
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
 
-    
+    final tempoIcon = await Sprite.load('note.png');
+
+    tempoIconComponent.sprite = tempoIcon;
 
 
     Buttonstart start = Buttonstart(startGame: startGame);
+
+    add(tempoIconComponent);
 
     add(tempoSelector);
     add(notesSelector);
@@ -93,6 +98,12 @@ class Gameconf extends RectangleComponent {
     notesSelector.size = Vector2(selectorWidth, selectorHeight);
     notesSelector.position = Vector2(notesSelectorX, notesSelectorY);
     
+
+    tempoIconComponent.size = Vector2(selectorWidth/3, selectorHeight/3);
+    tempoIconComponent.position = Vector2(
+      tempoSelectorX - selectorWidth/3,
+      tempoIconComponent.size.y+selectorHeight/2
+      );
 
     // position = Vector2(
     //   newSize.x * 0.9 / 2,

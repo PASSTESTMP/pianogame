@@ -100,8 +100,8 @@ class DropDown extends RectangleComponent with TapCallbacks {
   @override
   FutureOr<void> onLoad() {
     caption = TextComponent(
-      text: "$parameterName: $actVal",
-      anchor: Anchor.center,
+      text: "$parameterName $actVal",
+      anchor: Anchor.centerLeft,
       position: Vector2(size.x / 2, size.y / 2)
       );
     add(caption);
@@ -113,7 +113,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
     actVal = val;
     additionalFields.forEach(parent!.remove);
     changeFunction(val);
-    caption.text = "$parameterName: $actVal";
+    caption.text = "$parameterName $actVal";
   }
 
   void killDropDown() {
@@ -153,7 +153,15 @@ class DropDown extends RectangleComponent with TapCallbacks {
 
   @override
   void onGameResize(Vector2 newSize) {
-    caption.position = Vector2(size.x / 2, size.y / 2);
+    double newFontSize = size.y/4;
+
+    caption.textRenderer = TextPaint(
+        style: TextStyle(
+          fontSize: newFontSize,
+        )
+      );
+      caption.position = Vector2(0, size.y / 2);
+
     super.onGameResize(newSize);
   }
 }
