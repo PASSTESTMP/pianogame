@@ -32,7 +32,7 @@ class Gameconf extends RectangleComponent {
       changeFunction: changeTempo);
 
     notesSelector = DropDown(
-      parameterName: "NUMBER OF NOTES:",
+      parameterName: "n =",
       actVal: noteNumber.toString(),
       values: numberOfNotesValues,
       position: Vector2(300, 100),

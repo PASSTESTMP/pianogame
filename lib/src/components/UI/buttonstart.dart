@@ -51,6 +51,14 @@ class Buttonstart extends RectangleComponent with TapCallbacks {
       buttonStartHeight/2
     );
 
+    final newFontSize = buttonStartWidth/4;
+
+    startButton.textRenderer = TextPaint(
+      style: TextStyle(
+          fontSize: newFontSize,
+        )
+      );
+
     super.onGameResize(newSize);
   }
 

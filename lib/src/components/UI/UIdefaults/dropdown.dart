@@ -17,12 +17,14 @@ import 'package:pianogame/src/config.dart';
 class DropElement extends PositionComponent with TapCallbacks {
   String actVal;
   Function setActualValue;
+  double fontSize;
   List<int> positionPoint; // [which, how many]
   DropElement({
     required this.actVal,
     required this.positionPoint,
     required Vector2 size,
     required this.setActualValue,
+    required this.fontSize,
   }) : super(position: Vector2.zero(), size: size);
 
   @override
@@ -33,7 +35,7 @@ class DropElement extends PositionComponent with TapCallbacks {
     final textPainter = TextPainter(
       text: TextSpan(
         text: actVal,
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        style: TextStyle(color: Colors.white, fontSize: fontSize),
       ),
       textDirection: TextDirection.ltr,
     );
@@ -70,6 +72,9 @@ class DropElement extends PositionComponent with TapCallbacks {
       boardHeight / 4 * magicDivision
     );
     size = Vector2(elementWidth, elementHeight);
+
+    fontSize = size.y/4;
+
     super.onGameResize(newSize);
   }
 }
@@ -139,6 +144,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
             positionPoint: [i, values.length],
             size: size,
             setActualValue: setActVal,
+            fontSize: size.y/4
           ),
         );
       }
