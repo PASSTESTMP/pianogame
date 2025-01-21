@@ -31,7 +31,7 @@ class Gamescore extends RectangleComponent with TapCallbacks{
   FutureOr<void> onLoad() {
     // add(volumeSlider);
 
-    scoreIndicator = TextComponent(text: score.toString(), anchor: Anchor.center);
+    scoreIndicator = TextComponent(text: "$score %", anchor: Anchor.center);
     add(scoreIndicator);
 
     return super.onLoad();

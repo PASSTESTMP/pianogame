@@ -190,6 +190,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
   KeyEventResult onKeyEvent (
       KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
         super.onKeyEvent(event, keysPressed);
+        if(gameStarted) return KeyEventResult.handled;
         if(event is KeyRepeatEvent){
           return KeyEventResult.handled;
         }
