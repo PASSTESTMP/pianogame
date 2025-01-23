@@ -8,6 +8,7 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   Function changeVolume;
   double sliderWidth = defaultSliderWidth;
   double slidertHeight = defaultSliderWidth;
+  SpriteComponent volumeIconComponent = SpriteComponent();
   Volume({required this.changeVolume, this.outVolume=defaultVomule}):super(
     paint: Paint()..color = transparent,
     anchor: Anchor.center,
@@ -18,17 +19,22 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   // Wskaźnik pozycji
   late RectangleComponent _sliderRect;
   late RectangleComponent _knobRect;
-  late RectangleComponent _icon;
+  // late RectangleComponent _icon;
 
   @override
   Future<void> onLoad() async {
     _sliderRect = RectangleComponent();
     _knobRect = RectangleComponent(paint: (Paint()..color= blackKey), anchor: Anchor.center);
-    _icon = RectangleComponent();
+    // _icon = RectangleComponent();
+
+    final volumeIcon = await Sprite.load('volume.png');
+
+    volumeIconComponent.sprite = volumeIcon;
+
     _updateSlider();
     add(_sliderRect);
     add(_knobRect);
-    add(_icon);
+    add(volumeIconComponent);
   }
 
   @override
@@ -90,8 +96,11 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
     }
     _knobRect.size = Vector2(sliderWidth/10, slidertHeight*3);
 
-    _icon.size = Vector2(slidertHeight*3, slidertHeight*3);
-    _icon.position = Vector2(-slidertHeight*3, 0);
+    // _icon.size = Vector2(slidertHeight*3, slidertHeight*3);
+    // _icon.position = Vector2(-slidertHeight*3, 0);
+
+    volumeIconComponent.size = Vector2(slidertHeight*3, slidertHeight*3);
+    volumeIconComponent.position = Vector2(-slidertHeight*3.5, 0);
 
     super.onGameResize(newSize);
   }
