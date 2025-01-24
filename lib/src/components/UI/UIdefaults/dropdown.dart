@@ -6,6 +6,7 @@ drag i move przesowa gora dol, pozycje tak by jeden byl na srodku z minimalna an
 */
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -88,6 +89,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
   List values = List.empty();
   Function changeFunction;
   TextComponent caption = TextComponent();
+  late CircleHitButton hitButton;
 
   DropDown({
     required this.parameterName,
@@ -100,7 +102,9 @@ class DropDown extends RectangleComponent with TapCallbacks {
     position: position,
     size: size,
     paint: Paint()..color = transparent
-    );
+    ){
+      hitButton  = CircleHitButton(tapEvent: customTapDown);
+    }
 
   @override
   FutureOr<void> onLoad() {
@@ -110,6 +114,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
       position: Vector2(size.x / 2, size.y / 2)
       );
     add(caption);
+    add(hitButton);
     return super.onLoad();
   }
 
@@ -129,8 +134,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
 
   }
 
-  @override
-  void onTapDown(TapDownEvent event) {
+  void customTapDown() {
     if (!expanded) {
       expanded = true;
 
@@ -154,8 +158,35 @@ class DropDown extends RectangleComponent with TapCallbacks {
       expanded = false;
       additionalFields.forEach(parent!.remove);
     }
-    super.onTapDown(event);
   }
+
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   if (!expanded) {
+  //     expanded = true;
+
+  //     additionalFields = [Killface(killFunction: killDropDown)];
+
+  //     for(var i = 0; i < values.length; i++){
+        
+  //       additionalFields.add(
+  //         DropElement(
+  //           actVal: values.elementAt(i).toString(),
+  //           positionPoint: [i, values.length],
+  //           size: size,
+  //           setActualValue: setActVal,
+  //           fontSize: size.y/4
+  //         ),
+  //       );
+  //     }
+
+  //     parent?.addAll(additionalFields);
+  //   } else {
+  //     expanded = false;
+  //     additionalFields.forEach(parent!.remove);
+  //   }
+  //   super.onTapDown(event);
+  // }
 
   @override
   void onGameResize(Vector2 newSize) {
@@ -167,7 +198,38 @@ class DropDown extends RectangleComponent with TapCallbacks {
         )
       );
       caption.position = Vector2(0, size.y / 2);
+    
+    double d = newSize.y / magicDivision * magicPadding;
+    double gameconfWidth = newSize.x * magicPadding;
+    double gameconfHeight = newSize.y / magicDivision * magicPadding;
+    double selectorWidth;
+    double selectorHeight;
+
+    if(gameconfWidth / 3 > gameconfHeight / 2){
+      selectorWidth = gameconfHeight / 2;
+      selectorHeight = selectorWidth;
+    }else{
+      selectorWidth = gameconfWidth / 3;
+      selectorHeight = selectorWidth;
+    }
+
+    hitButton.size = Vector2(d, d);
+    hitButton.position = Vector2(selectorWidth/2, selectorHeight/2);
 
     super.onGameResize(newSize);
+  }
+}
+
+class CircleHitButton extends CircleComponent with TapCallbacks {
+  Function tapEvent;
+  CircleHitButton({required this.tapEvent}):super(
+    paint: Paint()..color = transparent,
+    anchor: Anchor.center
+  );
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    tapEvent();
+    super.onTapDown(event);
   }
 }
