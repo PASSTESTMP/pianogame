@@ -6,7 +6,6 @@ drag i move przesowa gora dol, pozycje tak by jeden byl na srodku z minimalna an
 */
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
