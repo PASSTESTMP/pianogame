@@ -73,11 +73,11 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
   @override
   void onGameResize(Vector2 newSize) {
     sliderWidth = newSize.x * magicPadding / 50;
-    slidertHeight = newSize.y * magicPadding / magicDivision * magicPadding;
+    slidertHeight = newSize.y * magicPadding / magicDivision * 4/5;
 
     position = Vector2(
-      newSize.x * magicPadding / 2 - sliderWidth,
-      - newSize.y/3);
+      newSize.x * magicPadding / 2 - sliderWidth*2,
+      - newSize.y/3+slidertHeight/16);
     size = Vector2(
       slidertHeight/8,
       slidertHeight);
