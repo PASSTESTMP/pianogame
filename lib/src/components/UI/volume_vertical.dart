@@ -76,15 +76,15 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
     slidertHeight = newSize.y * magicPadding / magicDivision * 4/5;
 
     position = Vector2(
-      newSize.x * magicPadding / 2 - sliderWidth*2,
+      newSize.x * magicPadding / 2 - sliderWidth,
       - newSize.y/3+slidertHeight/16);
     size = Vector2(
-      slidertHeight/8,
+      slidertHeight/2,
       slidertHeight);
 
     volumeIconComponent.size = Vector2(slidertHeight/6, slidertHeight/6);
     volumeIconComponent.position = Vector2(
-      volumeIconComponent.size.x/4,
+      volumeIconComponent.size.x/2.5+slidertHeight/6,
       slidertHeight - volumeIconComponent.size.y/4);
 
     _sliderRect.size = Vector2(
@@ -93,9 +93,9 @@ class Volume extends RectangleComponent with DragCallbacks, TapCallbacks{
 
     _sliderRect.anchor = Anchor.center;
 
-    _sliderRect.position = Vector2(slidertHeight/16, _sliderRect.size.y/2);
+    _sliderRect.position = Vector2(slidertHeight/16+slidertHeight/6, _sliderRect.size.y/2);
 
-    _knobRect.position.x = slidertHeight/16;
+    _knobRect.position.x = slidertHeight/16+slidertHeight/6;
     if(volume * _sliderRect.size.y < _knobRect.size.y/2){
       _knobRect.position.y = _knobRect.size.y/2;
     }else if(volume * _sliderRect.size.y > _sliderRect.size.y - _knobRect.size.y/2){
