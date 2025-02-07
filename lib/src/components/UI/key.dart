@@ -48,17 +48,24 @@ class PianoKey extends RectangleComponent with TapCallbacks {
     actVolume = getVolume();
   }
 
+  bool compareColor(Color color1, Color color2){
+    if (color1.value == color2.value){
+      return true;
+    }
+    return false;
+  }
+
   String lightKey(){
     if(white){
-      paint.color = paint.color == selectedKey ? whiteKey : selectedKey;
-      if(paint.color == selectedKey){
-      return playSound();
-    }
+      paint.color = compareColor(paint.color, selectedKey) ? whiteKey : selectedKey;
+      if(compareColor(paint.color, selectedKey)){
+        return playSound();
+      }
     }else{
-      paint.color = paint.color == selectedBlackKey ? blackKey : selectedBlackKey;
-      if(paint.color == selectedBlackKey){
-      return playSound();
-    }
+      paint.color = compareColor(paint.color, selectedBlackKey) ? blackKey : selectedBlackKey;
+      if(compareColor(paint.color, selectedBlackKey)){
+        return playSound();
+        }
     }
     return "";
   }
