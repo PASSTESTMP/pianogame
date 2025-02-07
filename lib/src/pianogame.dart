@@ -3,9 +3,12 @@ import 'dart:math';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/services/hardware_keyboard.dart';
 import 'package:flutter/src/widgets/focus_manager.dart';
+import 'package:pianogame/src/components/UI/UIdefaults/floatingbutton.dart';
 import 'package:pianogame/src/components/UI/gameconf.dart';
 import 'package:pianogame/src/components/UI/gamescore.dart';
 import 'package:pianogame/src/components/logic/gamelogic.dart';
@@ -39,6 +42,8 @@ class PianoGame extends FlameGame with KeyboardEvents {
   late Gameboard gameboard;
   
   late Iterable<PianoKey> keys;
+  
+  bool skipped = false;
 
   Future<void> activateKey(String key) async {
     if(gameStarted){
@@ -104,6 +109,10 @@ class PianoGame extends FlameGame with KeyboardEvents {
     numberOfNotes = int.parse(newNoumberOfNotes);
   }
 
+  void skip(){
+    skipped = true;
+  }
+
   Future<void> deactiveKeys() async {
     for(int i=0; i<keys.length; i++){
       keys.elementAt(i).deactive();
@@ -113,12 +122,17 @@ class PianoGame extends FlameGame with KeyboardEvents {
     sort();
     List<String> actualNoteList = keys.map((singleNote) => singleNote.note).toList();
     for(int i=0; i<activeKeys.length; i++){
+      if(skipped){
+        world.remove(world.children.query<FloatingButton>().last);
+        break;
+      }
       var x = actualNoteList.indexOf(activeKeys.elementAt(i));
       playSound(keys.elementAt(x).lightKey());
       double msec = 60000/gameTempo;
       await Future.delayed(Duration(milliseconds: msec.toInt()));
       keys.elementAt(x).deactive();
     }
+    world.remove(world.children.query<FloatingButton>().last);
     await Future.delayed(Duration(seconds: 1));
     randomize();
     for(int i=0; i<activeKeys.length; i++){
@@ -138,6 +152,9 @@ class PianoGame extends FlameGame with KeyboardEvents {
 
   void startGame() {
     if(activeKeys.length<3) return;
+    FloatingButton skippButton = FloatingButton(skip);
+    skipped = false;
+    world.add(skippButton);
     deactiveKeys();
     gameStarted = true;
     world.remove(world.children.query<Gameconf>().first);
