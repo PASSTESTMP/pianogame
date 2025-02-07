@@ -181,7 +181,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
 
     // +++++++++++++ DEBUG ++++++++++
     // TODO: DEBUGMODE
-    world.debugMode = false;
+    world.debugMode = true;
 
     world.add(gameconf);
 

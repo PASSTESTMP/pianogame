@@ -196,7 +196,7 @@ class DropDown extends RectangleComponent with TapCallbacks {
           fontSize: newFontSize,
         )
       );
-      caption.position = Vector2(0, size.y / 2);
+    caption.position = Vector2(0, size.y / 2);
     
     double d = newSize.y / magicDivision * magicPadding;
     double gameconfWidth = newSize.x * magicPadding;
