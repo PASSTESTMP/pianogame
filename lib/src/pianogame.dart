@@ -7,7 +7,6 @@ import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/hardware_keyboard.dart';
-import 'package:flutter/src/widgets/focus_manager.dart';
 import 'package:pianogame/src/components/UI/UIdefaults/floatingbutton.dart';
 import 'package:pianogame/src/components/UI/gameconf.dart';
 import 'package:pianogame/src/components/UI/gamescore.dart';
@@ -181,7 +180,7 @@ class PianoGame extends FlameGame with KeyboardEvents {
 
     // +++++++++++++ DEBUG ++++++++++
     // TODO: DEBUGMODE
-    world.debugMode = true;
+    world.debugMode = false;
 
     world.add(gameconf);
 
